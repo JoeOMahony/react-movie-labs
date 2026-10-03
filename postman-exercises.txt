@@ -1,0 +1,37 @@
+Sample movie ID for Spider Man: No Way Home = 634649
+
+
+1. Send a request that fetches upcoming movies
+https://api.themoviedb.org/3/discover/movie?api_key=APIKEYGOESHERE&include_adult=false&include_video=false&language=en-US&page=1&sort_by=popularity.desc&with_release_type=2|3&primary_release_date.gte=2026-10-02&primary_release_date.lte=2027-10-02
+
+=> You must use primary_release_date to avoid having re-releases or long-running movies in the list, which release_date shows. Otherwise, 
+https://api.themoviedb.org/3/movie/upcoming?api_key=APIKEYGOESHERE&language=en-US
+
+
+2. Get the details for one movie (hint: you will need to include a movie id in the request)
+First find the movie ID,
+https://api.themoviedb.org/3/search/movie?api_key=APIKEYGOESHERE&query=QUERYGOESHERE&year=YEARGOESHERE
+
+THEN,
+https://api.themoviedb.org/3/movie/MOVIEIDGOESHERE?api_key=APIKEYGOESHERE
+
+
+3. Get a list of popular actors
+=> Popular:
+https://api.themoviedb.org/3/person/popular?api_key=APIKEYGOESHERE&language=en-US&page=1
+=> Trending by day:
+https://api.themoviedb.org/3/trending/person/day?api_key=APIKEYGOESHERE&language=en-US
+=> Trending by week:
+https://api.themoviedb.org/3/trending/person/week?api_key=APIKEYGOESHERE&language=en-US
+
+
+4. Find a list of genres for TV shows
+https://api.themoviedb.org/3/genre/tv/list?api_key=APIKEYGOESHERE&language=en
+
+
+5. Find the list of cast for a particular movie (again, you will need to use a specific movie id)
+First find the movie ID, 
+https://api.themoviedb.org/3/search/movie?api_key=APIKEYGOESHERE&query=QUERYGOESHERE&year=YEARGOESHERE
+
+THEN,
+https://api.themoviedb.org/3/movie/MOVIEIDGOESHERE/credits?api_key=APIKEYGOESHERE
