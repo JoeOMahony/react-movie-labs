@@ -59,6 +59,20 @@ const MovieDetails = ({ movie }) => {
         />
         <Chip label={`Released: ${movie.release_date}`} />
       </Paper>
+      {/* Movie App Lab 02 Exercise 01: Production countries arr */}
+      <Paper
+        component="ul"
+        sx={{ ...root }}
+      >
+        <li>
+          <Chip label="Production Countries" sx={{ ...chip }} color="primary" />
+        </li>
+        {movie.production_countries.map((pc) => (
+          <li key={pc.name}>
+            <Chip label={pc.name} sx={{ ...chip }} />
+          </li>
+        ))}
+      </Paper>
       <Fab
         color="secondary"
         variant="extended"
