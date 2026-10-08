@@ -1,18 +1,13 @@
-import React, {useState, useEffect}  from "react";
+import React from "react";
 import { useParams } from 'react-router';
 import MovieDetails from "../components/movieDetails/";
 import PageTemplate from "../components/templateMoviePage";
-import { getMovie } from "../api/tmdb-api";
+import useMovie from "../hooks/useMovie";
 
 const MoviePage = (props) => {
   const { id } = useParams();
-  const [movie, setMovie] = useState(null);
-
-  useEffect(() => {
-    getMovie(id).then((movie) => {
-      setMovie(movie);
-    });
-  }, [id]);
+  // Custom hooks allow us to extract component state logic into reusable functions. As an example, we will define a custom hook that manages a movie object state variable.
+  const [movie] = useMovie(id);
 
   return (
     <>
