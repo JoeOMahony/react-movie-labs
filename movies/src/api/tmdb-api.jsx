@@ -15,11 +15,25 @@ export const getMovies = () => {
   });
 };
 
-
-export const getMovie = id => {
+// Called in movieDetailsPage
+// [ {..."id": 1423191...}, {...}]
+export const getMovie = (args) => {
+  console.log(args)
+  const [, idPart] = args.queryKey;
+  const { id } = idPart;
   return fetch(
     `https://api.themoviedb.org/3/movie/${id}?api_key=${import.meta.env.VITE_TMDB_KEY}`
-  ).then(res => res.json());
+  ).then((response) => {
+    if (!response.ok) {
+      return response.json().then((error) => {
+        throw new Error(error.status_message || "Something went wrong");
+      });
+    }
+    return response.json();
+  })
+  .catch((error) => {
+    throw error
+ });
 };
 
 // filterMoviesCard useQuery() queryFn
@@ -41,25 +55,45 @@ export const getMovie = id => {
    });
   };
 
-export const getMovieImages = (id) => {
-  return fetch(
-    `https://api.themoviedb.org/3/movie/${id}/images?api_key=${import.meta.env.VITE_TMDB_KEY}`
-  )
-    .then((res) => res.json())
-    .then((json) => json.posters);
-};
+  // Called by templateMoviePage/index.jsx 
+  export const getMovieImages = ({ queryKey }) => {
+    const [, idPart] = queryKey;
+    const { id } = idPart;
+    return fetch(
+      `https://api.themoviedb.org/3/movie/${id}/images?api_key=${import.meta.env.VITE_TMDB_KEY}`
+    ).then( (response) => {
+      if (!response.ok) {
+        return response.json().then((error) => {
+          throw new Error(error.status_message || "Something went wrong");
+        });
+      }
+      return response.json();
+    })
+    .catch((error) => {
+      throw error
+   });
+  };
 
-// For showing movie reviews feature
-export const getMovieReviews = (id) => {
-  return fetch(
-    `https://api.themoviedb.org/3/movie/${id}/reviews?api_key=${import.meta.env.VITE_TMDB_KEY}`
-  )
-    .then((res) => res.json())
-    .then((json) => {
-      // console.log(json.results);
-      return json.results;
-    });
-};
+
+// For showing movie reviews feature / fetching movie reviews.
+// Called by src/components/movieReviews/index.jsx
+  export const getMovieReviews = ({ queryKey }) => {
+    const [, idPart] = queryKey;
+    const { id } = idPart;
+    return fetch(
+      `https://api.themoviedb.org/3/movie/${id}/reviews?api_key=${import.meta.env.VITE_TMDB_KEY}`
+    ).then( (response) => {
+      if (!response.ok) {
+        return response.json().then((error) => {
+          throw new Error(error.status_message || "Something went wrong");
+        });
+      }
+      return response.json();
+    })
+    .catch((error) => {
+      throw error
+   });
+  };
 
 // Exercise 02 Lab 02 
 // Gets upcoming movies
