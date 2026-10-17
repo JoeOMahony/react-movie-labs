@@ -5,6 +5,11 @@ import MenuItem from "@mui/material/MenuItem";
 import Typography from "@mui/material/Typography";
 import Box from "@mui/material/Box";
 import { useForm, Controller } from "react-hook-form";
+import { useContext } from "react";
+import { MoviesContext } from "../../contexts/moviesContext";
+import Snackbar from "@mui/material/Snackbar";
+import MuiAlert from "@mui/material/Alert";
+import { useNavigate } from "react-router";
 
 const ratings = [
   {
@@ -57,15 +62,19 @@ const styles = {
 };
 
 const ReviewForm = ({ movie }) => {
+  const context = useContext(MoviesContext);
   const [rating, setRating] = useState(3);
-  
+  const [open, setOpen] = useState(false);
+  const navigate = useNavigate();
+
+
   const defaultValues = {
     author: "",
     review: "",
     agree: false,
     rating: "3",
   };
-  
+
   /*
     The useForm hook in the below code is the cornerstone.  We use the properties it returns to  
     connect our standard web form to form-handling logic provided by the react-form-hooks package. 
@@ -88,10 +97,16 @@ const ReviewForm = ({ movie }) => {
     setRating(event.target.value);
   };
 
+  const handleSnackClose = (event) => {
+    setOpen(false);
+    navigate("/movies/favorites");
+  };
+
   const onSubmit = (review) => {
     review.movieId = movie.id;
     review.rating = rating;
-    console.log(review);
+    context.addReview(movie, review);
+    setOpen(true); // opens the snackbar when a review is submitted
   };
 
   return (
@@ -99,6 +114,23 @@ const ReviewForm = ({ movie }) => {
       <Typography component="h2" variant="h3">
         Write a review
       </Typography>
+
+      <Snackbar
+        sx={styles.snack}
+        anchorOrigin={{ vertical: "top", horizontal: "right" }}
+        open={open}
+        onClose={handleSnackClose}
+      >
+        <MuiAlert
+          severity="success"
+          variant="filled"
+          onClose={handleSnackClose}
+        >
+          <Typography variant="h4">
+            Thank you for submitting a review
+          </Typography>
+        </MuiAlert>
+      </Snackbar>
 
       <form sx={styles.form} onSubmit={handleSubmit(onSubmit)} noValidate>
         { /* this is the Controller definition for the Author form field. Inside the render method,
