@@ -4,6 +4,8 @@ import { MoviesContext } from "../contexts/moviesContext";
 import { useQueries } from "@tanstack/react-query";
 import { getMovie } from "../api/tmdb-api";
 import Spinner from '../components/spinner'
+import RemoveFromFavorites from "../components/cardIcons/removeFromFavorites";
+import WriteReview from "../components/cardIcons/writeReview";
 
 const FavoriteMoviesPage = () => {
   const {favorites: movieIds } = useContext(MoviesContext);
@@ -31,14 +33,23 @@ const FavoriteMoviesPage = () => {
   });
 
   const toDo = () => true;
-
-  return (
+    // introducing the render prop
+    return (
     <PageTemplate
-      title="Favourite Movies"
+      title="Favorite Movies"
       movies={movies}
-      selectFavorite={toDo}
+      action={(movie) => {
+        return (
+          <> 
+            <RemoveFromFavorites movie={movie} />
+            <WriteReview movie={movie} />
+          </>
+        );
+      }}
     />
   );
+  // The above code indicates that movie cards on the Favorite movies page should have two action icons:
+  //  Remove from the Favorites and Write a Review. In the browser, try adding and removing favourites.
 };
 
 export default FavoriteMoviesPage;
