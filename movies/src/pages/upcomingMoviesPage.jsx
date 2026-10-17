@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from "react";
 import MovieListTemplate from '../components/templateMovieListPage'
 import { getUpcomingMovies } from "../api/tmdb-api"
-import AddToFavoritesIcon from '../components/cardIcons/addToFavorites'
+import PlaylistAddIcon from '@mui/icons-material/PlaylistAdd'
 
 const UpcomingMoviesPage = (props) => {
   // Based on homePage.jsx, will keep favorites because it makes sense to be able to favourite a movie you want to see.
@@ -20,7 +20,7 @@ const UpcomingMoviesPage = (props) => {
       title='Upcoming Movies'
       movies={movies}
       action={(movie) => {
-          return <AddToFavoritesIcon movie={movie} />
+          return <PlaylistAddIcon movie={movie} />
         }}
     />
   );
