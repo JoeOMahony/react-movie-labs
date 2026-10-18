@@ -11,6 +11,8 @@ import { QueryClientProvider, QueryClient } from '@tanstack/react-query';
 import { ReactQueryDevtools } from '@tanstack/react-query-devtools'
 import MoviesContextProvider from "./contexts/moviesContext";
 import AddMovieReviewPage from './pages/addMovieReviewPage'
+import { ThemeProvider } from "@emotion/react";
+import myTheme from "./theme.js"
 
 // will manage the cache in the browser
 // [The above configuration will retain all data in the cache for 1 hour before it becomes invalidated.]
@@ -48,4 +50,4 @@ const App = () => {
 
 
 const rootElement = createRoot(document.getElementById("root"))
-rootElement.render(<App />);
+rootElement.render(<ThemeProvider theme={ myTheme }> <App /> </ThemeProvider>);
