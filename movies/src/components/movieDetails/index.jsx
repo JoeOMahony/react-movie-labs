@@ -48,14 +48,19 @@ const MovieDetails = ({ movie }) => {
         ))}
       </Paper>
       <Paper component="ul" sx={{ ...root }}>
-        <Chip icon={<AccessTimeIcon />} label={`${movie.runtime} min.`} />
+        <Chip icon={<AccessTimeIcon />} 
+        label={`${movie.runtime} min.`}
+        sx = {{ "& .MuiChip-icon": { color: "secondary.main" } }}
+        />
         <Chip
-          icon={<MonetizationIcon />}
+          icon={<MonetizationIcon  />}
           label={`${movie.revenue.toLocaleString()}`}
+          sx = {{ "& .MuiChip-icon": { color: "money.main" } }}
         />
         <Chip
           icon={<StarRate />}
           label={`${movie.vote_average} (${movie.vote_count})`}
+          sx = {{ "& .MuiChip-icon": { color: "golden.main" } }}
         />
         <Chip label={`Released: ${movie.release_date}`} />
       </Paper>

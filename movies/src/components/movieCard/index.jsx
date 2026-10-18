@@ -32,16 +32,24 @@ export default function MovieCard({ movie, action }) {
 
   return (
     <Card>
-        <CardHeader
+      <CardHeader
         avatar={
           movie.favorite ? (
-            <Avatar sx={{ backgroundColor: 'red' }}>
+            <Avatar sx={{
+              backgroundColor: "primary.main",
+              '&:hover': {
+                backgroundColor: 'primary.main',
+                color: 'white',
+                transform: 'scale(1.05)',
+                transition: 'transform 1s ease-in-out',
+              }
+            }}>
               <FavoriteIcon />
             </Avatar>
           ) : null
         }
         title={
-          <Typography variant="h5" component="p">
+          <Typography variant="h5" component="p" sx={{ typography: 'movieTitleFont' }}>
             {movie.title}{" "}
           </Typography>
         }
@@ -56,30 +64,42 @@ export default function MovieCard({ movie, action }) {
       />
       <CardContent>
         <Grid container>
-          <Grid size={{xs: 6}}>
+          <Grid size={{ xs: 6 }}>
             <Typography variant="h6" component="p">
               <CalendarIcon fontSize="small" />
               {movie.release_date}
             </Typography>
           </Grid>
-          <Grid size={{xs: 6}}>
-            <Typography variant="h6" component="p">
-              <StarRateIcon fontSize="small" />
-              {"  "} {movie.vote_average}{" "}
-            </Typography>
+          <Grid size={{ xs: 6 }} >
+              <Typography variant="h6" component="p">
+                <StarRateIcon fontSize="small" sx={{ color: "golden.main" }} />
+                {"  "} {Math.round(movie.vote_average * 10) / 10}{" "}
+              </Typography>
           </Grid>
         </Grid>
       </CardContent>
       <CardActions disableSpacing>
-        
+
         {action(movie)}
-        
-        <Link to={`/movies/${movie.id}`}>
-          <Button variant="outlined" size="medium" color="primary">
-            More Info ...
+
+        {/* https://mui.com/material-ui/react-button/ 
+            Aligns more info button to the right of faourite */}
+        <Link to={`/movies/${movie.id}`} style={{ marginLeft: 'auto' }}>
+          <Button variant="outlined" size="medium" color="primary" sx={{
+            '&:hover': {
+              backgroundColor: 'primary.main',
+              color: 'white',
+              transform: 'scale(1.05)',
+            },
+            '&:active': {
+              transform: 'scale(0.95)',
+              textDecoration: 'underline',
+            }
+          }}>
+            More Info...
           </Button>
         </Link>
-        
+
       </CardActions>
     </Card>
   );
