@@ -107,3 +107,20 @@ export const getUpcomingMovies = (id) => {
       return json.results;
     });
 };
+
+// Static Page 01 for assignment
+// Gets top rated movies
+// method logic below based on getUpcomingMovies
+// https://developer.themoviedb.org/reference/movie-top-rated-list
+export const getTopRatedMovies = (id) => {
+  // ISO-3166-1 code
+  const region = 'IE' // Ireland, might change this later, but will leave hard-coded here for now
+  return fetch(
+    `https://api.themoviedb.org/3/movie/top_rated?api_key=${import.meta.env.VITE_TMDB_KEY}&language=en-US&page=1&region=${region}`
+  )
+    .then((res) => res.json())
+    .then((json) => {
+      console.log(region + ' top rated movies: ', json.results);
+      return json.results;
+    });
+};
