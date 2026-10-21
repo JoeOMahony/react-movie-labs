@@ -31,7 +31,13 @@ const themeOptions = {
     movieTitleFont: {
       fontFamily: ' "Garamond", "Palatino", serif ',
       fontWeight: 550,
-      letterSpacing: 0.4
+      letterSpacing: 0.4,
+    },
+    movieTaglineFont: {
+      fontFamily: '"Palatino", "Times New Roman", serif ',
+      fontWeight: 400,
+      letterSpacing: 0.2,
+      fontStyle: 'italic'
     }
   }
 }
