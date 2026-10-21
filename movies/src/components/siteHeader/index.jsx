@@ -59,10 +59,15 @@ const SiteHeader = () => {
         <>
             <AppBar position="fixed" color="secondary">
                 <Toolbar>
+                    <Button 
+                        onClick={() => handleMenuSelect("/")}
+                        color="inherit"
+                        sx={{ textTransform: "none" }}>
                     <Typography variant="h4" sx={{ flexGrow: 1 }}>
                         TMDB Client
                     </Typography>
-                    <Typography variant="h6" sx={{ flexGrow: 1 }}>
+                    </Button>
+                    <Typography variant="h6" sx={{ flexGrow: 1, textAlign: "center" }}>
                         All you ever wanted to know about Movies!
                     </Typography>
                     {isMobile ? (
