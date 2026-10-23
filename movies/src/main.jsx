@@ -14,6 +14,7 @@ import AddMovieReviewPage from './pages/addMovieReviewPage'
 import { ThemeProvider } from "@emotion/react";
 import myTheme from "./theme.js"
 import TopRatedMoviesPage from "./pages/topRatedMoviesPage";
+import WatchListMoviesPage from "./pages/watchListMoviesPage";
 
 // will manage the cache in the browser
 // [The above configuration will retain all data in the cache for 1 hour before it becomes invalidated.]
@@ -42,6 +43,7 @@ const App = () => {
             <Route path="*" element={<Navigate to="/" />} />
             <Route path="/reviews/form" element={<AddMovieReviewPage />} />
             <Route path="/top-rated" element={<TopRatedMoviesPage />} />
+            <Route path="/watchlist" element={<WatchListMoviesPage />} />
           </Routes>
         </MoviesContextProvider>
       </BrowserRouter>

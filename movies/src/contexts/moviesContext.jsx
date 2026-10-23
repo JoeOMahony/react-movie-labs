@@ -18,8 +18,10 @@ const MoviesContextProvider = (props) => {
     if (!favorites.includes(movie.id)) {
       newFavorites = [...favorites, movie.id];
     }
+    // Getting weird bugs trying to call removeFromFavorites() below on clicking icon twice, so just doing unfavourite inline.
     else {
       newFavorites = [...favorites];
+      newFavorites = newFavorites.filter((mId) => mId !== movie.id);
     }
     setFavorites(newFavorites)
   };
@@ -37,6 +39,7 @@ const MoviesContextProvider = (props) => {
     }
     else {
       newWatchList = [...myWatchList];
+      newWatchList = newWatchList.filter((mId) => mId !== movie.id);
     }
     setMyWatchList(newWatchList)
   };
