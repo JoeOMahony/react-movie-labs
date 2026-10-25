@@ -10,6 +10,9 @@ import Typography from "@mui/material/Typography";
 import Drawer from "@mui/material/Drawer";
 import MovieReviews from "../movieReviews"
 import { Link } from "react-router"
+import popcornIcon from "../../images/popcorn-icon.png";
+
+let tmdbTinyImageUrl = 'https://image.tmdb.org/t/p/w92/';
 
 const root = {
   display: "flex",
@@ -49,6 +52,33 @@ const MovieDetails = ({ movie }) => {
           </li>
         ))}
       </Paper>
+      {/* Movie App Lab 02 Exercise 01: Production countries arr */}
+      <Paper
+        component="ul"
+        sx={{ ...root }}
+      >
+        <li>
+          <Chip label="Production Countries" sx={{ ...chip }} color="primary" />
+        </li>
+        {movie.production_countries.map((pCountry) => (
+          <li key={pCountry.name}>
+            <Chip label={pCountry.name} sx={{ ...chip }} />
+          </li>
+        ))}
+      </Paper>
+      <Paper
+        component="ul"
+        sx={{ ...root }}
+      >
+        <li>
+          <Chip label="Production Companies" sx={{ ...chip }} color="primary" />
+        </li>
+        {movie.production_companies.map((pCompany) => (
+          <li key={pCompany.name}>
+            <Chip label={pCompany.name} sx={{ ...chip }} icon={<img src={pCompany.logo_path !== null ? tmdbTinyImageUrl + pCompany.logo_path : popcornIcon} alt={pCompany.name} width="32" height="16" />} />
+          </li>
+        ))}
+      </Paper>
       <Paper component="ul" sx={{ ...root }}>
         <Chip icon={<AccessTimeIcon />}
           label={`${movie.runtime} min.`}
@@ -65,20 +95,6 @@ const MovieDetails = ({ movie }) => {
           sx={{ "& .MuiChip-icon": { color: "golden.main" } }}
         />
         <Chip label={`Released: ${movie.release_date}`} />
-      </Paper>
-      {/* Movie App Lab 02 Exercise 01: Production countries arr */}
-      <Paper
-        component="ul"
-        sx={{ ...root }}
-      >
-        <li>
-          <Chip label="Production Countries" sx={{ ...chip }} color="primary" />
-        </li>
-        {movie.production_countries.map((pc) => (
-          <li key={pc.name}>
-            <Chip label={pc.name} sx={{ ...chip }} />
-          </li>
-        ))}
       </Paper>
       <Fab
         color="secondary"
