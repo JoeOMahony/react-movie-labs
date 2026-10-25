@@ -62,7 +62,8 @@ const MovieDetails = ({ movie }) => {
         </li>
         {movie.production_countries.map((pCountry) => (
           <li key={pCountry.name}>
-            <Chip label={pCountry.name} sx={{ ...chip }} />
+            { /* https://flagpedia.net/download/api */ }
+            <Chip label={pCountry.name} icon={<img src={`https://flagcdn.com/24x18/${pCountry.iso_3166_1.toLowerCase()}.png`} alt={pCountry.name} height="18" width="24" />} sx={{ ...chip }} />
           </li>
         ))}
       </Paper>
