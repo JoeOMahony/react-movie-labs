@@ -133,3 +133,12 @@ export const getMoviesByGenre = (genreId) => {
     .then((res) => res.json())
     .then((json) => json.results);
 };
+
+// Dynamic page to fetch movies for a country
+export const getMoviesByCountry = (countryCode) => {
+  return fetch(
+    `https://api.themoviedb.org/3/discover/movie?api_key=${import.meta.env.VITE_TMDB_KEY}&language=en-US&include_adult=false&page=1&with_origin_country=${countryCode}`
+  )
+    .then((res) => res.json())
+    .then((json) => json.results);
+}
