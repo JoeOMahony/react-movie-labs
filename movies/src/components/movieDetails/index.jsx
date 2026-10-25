@@ -9,7 +9,7 @@ import Fab from "@mui/material/Fab";
 import Typography from "@mui/material/Typography";
 import Drawer from "@mui/material/Drawer";
 import MovieReviews from "../movieReviews"
-
+import { Link } from "react-router"
 
 const root = {
   display: "flex",
@@ -43,24 +43,26 @@ const MovieDetails = ({ movie }) => {
         </li>
         {movie.genres.map((g) => (
           <li key={g.name}>
-            <Chip label={g.name} sx={{ ...chip }} />
+            <Link to={`/genres/${g.id}/${g.name}`}>
+              <Chip label={g.name} sx={{ ...chip }} />
+            </Link>
           </li>
         ))}
       </Paper>
       <Paper component="ul" sx={{ ...root }}>
-        <Chip icon={<AccessTimeIcon />} 
-        label={`${movie.runtime} min.`}
-        sx = {{ "& .MuiChip-icon": { color: "secondary.main" } }}
+        <Chip icon={<AccessTimeIcon />}
+          label={`${movie.runtime} min.`}
+          sx={{ "& .MuiChip-icon": { color: "secondary.main" } }}
         />
         <Chip
-          icon={<MonetizationIcon  />}
+          icon={<MonetizationIcon />}
           label={`${movie.revenue.toLocaleString()}`}
-          sx = {{ "& .MuiChip-icon": { color: "money.main" } }}
+          sx={{ "& .MuiChip-icon": { color: "money.main" } }}
         />
         <Chip
           icon={<StarRate />}
           label={`${movie.vote_average} (${movie.vote_count})`}
-          sx = {{ "& .MuiChip-icon": { color: "golden.main" } }}
+          sx={{ "& .MuiChip-icon": { color: "golden.main" } }}
         />
         <Chip label={`Released: ${movie.release_date}`} />
       </Paper>
