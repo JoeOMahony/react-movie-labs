@@ -25,7 +25,7 @@ const Header = (props ) => {
       </IconButton>
 
 
-      <Typography variant="h4" component="h3">
+      <Typography variant="h4" component="h3" sx={{ typography: 'pageHeadingFont'}}>
         {title}
       </Typography>
       <IconButton aria-label="go forward" onClick={() => navigate(+1)}>

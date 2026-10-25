@@ -38,6 +38,12 @@ const themeOptions = {
       fontWeight: 400,
       letterSpacing: 0.2,
       fontStyle: 'italic'
+    },
+    pageHeadingFont: {
+      fontWeight: 500,
+      letterSpacing: 0.2,
+      color: "#660202",
+      fontStyle: 'italic'
     }
   }
 }
