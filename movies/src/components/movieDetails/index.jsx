@@ -78,7 +78,9 @@ const MovieDetails = ({ movie }) => {
         </li>
         {movie.production_companies.map((pCompany) => (
           <li key={pCompany.name}>
+            <Link to ={`/companies/${pCompany.id}/${pCompany.name}`}>
             <Chip label={pCompany.name} sx={{ ...chip }} icon={<img src={pCompany.logo_path !== null ? tmdbTinyImageUrl + pCompany.logo_path : popcornIcon} alt={pCompany.name} width="32" height="16" />} />
+            </Link>
           </li>
         ))}
       </Paper>
