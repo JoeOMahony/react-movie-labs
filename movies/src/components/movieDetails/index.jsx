@@ -29,11 +29,11 @@ const MovieDetails = ({ movie }) => {
 
   return (
     <>
-      <Typography variant="h5" component="h3">
+      <Typography variant="h5" component="h3" sx={{ mb: 2, mt: 1,  fontWeight: 'bold' }}>
         Overview
       </Typography>
 
-      <Typography variant="h6" component="p">
+      <Typography variant="h6" component="p" sx={{ mb: 2 }}>
         {movie.overview}
       </Typography>
 
