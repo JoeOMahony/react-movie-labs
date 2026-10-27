@@ -32,7 +32,8 @@ const MovieHeader = (props) => {
           <LinkIcon color="primary" sx={{ paddingLeft: "1rem" }} />
         </a>
         <br />
-        <Typography variant="h4" component="h4" sx={{ typography: 'movieTaglineFont', fontSize: "2rem"}} >
+        { /* Console error fix for: "In HTML, <h4> cannot be a child of <h3>. This will cause a hydration error." */ }
+        <Typography variant="h4" component="p" sx={{ typography: 'movieTaglineFont', fontSize: "2rem"}} >
           {movie.tagline && (
             <span>{`   "${movie.tagline}"`} </span>
           )}
