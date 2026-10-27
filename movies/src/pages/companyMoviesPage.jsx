@@ -1,19 +1,32 @@
-import React, { useState, useEffect } from "react";
+import React from "react";
 import MovieListTemplate from '../components/templateMovieListPage'
 import AddToFavorites from '../components/cardIcons/addToFavorites'
 import { getMoviesByCompany } from "../api/tmdb-api"
 import { useParams } from "react-router";
+import { useQuery } from '@tanstack/react-query';
+import Spinner from '../components/spinner'
 
 // Based on favoriteMoviesPage.jsx
 const CompanyMoviesPage = (props) => {
-    const [movies, setMovies] = useState([]);
     const { id, name } = useParams();
 
-    useEffect(() => {
-        getMoviesByCompany(id).then(movies => {
-            setMovies(movies);
-        });
-    }, [id]);
+    const result = useQuery({
+        queryKey: ['companyMovies', { id: id }],
+        queryFn: getMoviesByCompany,
+    });
+    const movies = result.data;
+    const error = result.error;
+    const isPending = result.isPending;
+    const isError = result.isError;
+
+
+    if (isPending) {
+        return <Spinner />;
+    }
+
+    if (isError) {
+        return <h3 style={{ color: 'red', fontWeight: 'bold' }}>Fetch error: {error.message}</h3>;
+    }
 
     return (
         <MovieListTemplate

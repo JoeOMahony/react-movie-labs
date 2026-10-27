@@ -143,13 +143,24 @@ export const getMoviesByCountry = (countryCode) => {
     .then((json) => json.results);
 }
 
-export const getMoviesByCompany = (companyId) => {
+export const getMoviesByCompany = ({ queryKey }) => {
+  const [, idPart] = queryKey;
+  const { id } = idPart;
   return fetch(
-    `https://api.themoviedb.org/3/discover/movie?api_key=${import.meta.env.VITE_TMDB_KEY}&include_adult=false&page=1&with_companies=${companyId}`
-  )
-    .then((res) => res.json())
-    .then((json) => json.results);
-}
+    `https://api.themoviedb.org/3/discover/movie?api_key=${import.meta.env.VITE_TMDB_KEY}&include_adult=false&page=1&with_companies=${id}`
+  ).then((response) => {
+    if (!response.ok) {
+      return response.json().then((error) => {
+        throw new Error(error.status_message || "Something went wrong");
+      });
+    }
+    return response.json();
+  }).then((json) => json.results)
+    .catch((error) => {
+      throw error
+    });
+};
+
 
 // Gets the first 10 cast members for a given movie ID, used by movieDetails component
 // based on getMovieReviews
