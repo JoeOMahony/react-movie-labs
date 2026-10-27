@@ -10,9 +10,9 @@ export const getMovies = () => {
     }
     return response.json();
   })
-  .catch((error) => {
+    .catch((error) => {
       throw error
-  });
+    });
 };
 
 // Called in movieDetailsPage
@@ -31,69 +31,69 @@ export const getMovie = (args) => {
     }
     return response.json();
   })
-  .catch((error) => {
-    throw error
- });
+    .catch((error) => {
+      throw error
+    });
 };
 
 // filterMoviesCard useQuery() queryFn
-  export const getGenres = () => {
-    return fetch(
-      "https://api.themoviedb.org/3/genre/movie/list?api_key=" +
-        import.meta.env.VITE_TMDB_KEY +
-        "&language=en-US"
-    ).then( (response) => {
-      if (!response.ok) {
-        return response.json().then((error) => {
-          throw new Error(error.status_message || "Something went wrong");
-        });
-      }
-      return response.json();
-    })
+export const getGenres = () => {
+  return fetch(
+    "https://api.themoviedb.org/3/genre/movie/list?api_key=" +
+    import.meta.env.VITE_TMDB_KEY +
+    "&language=en-US"
+  ).then((response) => {
+    if (!response.ok) {
+      return response.json().then((error) => {
+        throw new Error(error.status_message || "Something went wrong");
+      });
+    }
+    return response.json();
+  })
     .catch((error) => {
       throw error
-   });
-  };
+    });
+};
 
-  // Called by templateMoviePage/index.jsx 
-  export const getMovieImages = ({ queryKey }) => {
-    const [, idPart] = queryKey;
-    const { id } = idPart;
-    return fetch(
-      `https://api.themoviedb.org/3/movie/${id}/images?api_key=${import.meta.env.VITE_TMDB_KEY}`
-    ).then( (response) => {
-      if (!response.ok) {
-        return response.json().then((error) => {
-          throw new Error(error.status_message || "Something went wrong");
-        });
-      }
-      return response.json();
-    })
+// Called by templateMoviePage/index.jsx 
+export const getMovieImages = ({ queryKey }) => {
+  const [, idPart] = queryKey;
+  const { id } = idPart;
+  return fetch(
+    `https://api.themoviedb.org/3/movie/${id}/images?api_key=${import.meta.env.VITE_TMDB_KEY}`
+  ).then((response) => {
+    if (!response.ok) {
+      return response.json().then((error) => {
+        throw new Error(error.status_message || "Something went wrong");
+      });
+    }
+    return response.json();
+  })
     .catch((error) => {
       throw error
-   });
-  };
+    });
+};
 
 
 // For showing movie reviews feature / fetching movie reviews.
 // Called by src/components/movieReviews/index.jsx
-  export const getMovieReviews = ({ queryKey }) => {
-    const [, idPart] = queryKey;
-    const { id } = idPart;
-    return fetch(
-      `https://api.themoviedb.org/3/movie/${id}/reviews?api_key=${import.meta.env.VITE_TMDB_KEY}`
-    ).then( (response) => {
-      if (!response.ok) {
-        return response.json().then((error) => {
-          throw new Error(error.status_message || "Something went wrong");
-        });
-      }
-      return response.json();
-    })
+export const getMovieReviews = ({ queryKey }) => {
+  const [, idPart] = queryKey;
+  const { id } = idPart;
+  return fetch(
+    `https://api.themoviedb.org/3/movie/${id}/reviews?api_key=${import.meta.env.VITE_TMDB_KEY}`
+  ).then((response) => {
+    if (!response.ok) {
+      return response.json().then((error) => {
+        throw new Error(error.status_message || "Something went wrong");
+      });
+    }
+    return response.json();
+  })
     .catch((error) => {
       throw error
-   });
-  };
+    });
+};
 
 // Exercise 02 Lab 02 
 // Gets upcoming movies
@@ -150,3 +150,45 @@ export const getMoviesByCompany = (companyId) => {
     .then((res) => res.json())
     .then((json) => json.results);
 }
+
+// Gets the first 10 cast members for a given movie ID, used by movieDetails component
+// based on getMovieReviews
+// https://developer.themoviedb.org/reference/movie-credits
+export const getCastByMovie = ({ queryKey }) => {
+  const [, idPart] = queryKey;
+  const { id } = idPart;
+  return fetch(
+    `https://api.themoviedb.org/3/movie/${id}/credits?api_key=${import.meta.env.VITE_TMDB_KEY}`
+  ).then((response) => {
+    if (!response.ok) {
+      return response.json().then((error) => {
+        throw new Error(error.status_message || "Something went wrong");
+      });
+    }
+    return response.json();
+  }).then((json) => json.cast) // also returns crew, but only have use for cast now, but maybe will use later
+    .then((cast) => cast.slice(0, 10)) // only want first 10 to avoid cluttering
+    .catch((error) => {
+      throw error
+    });
+};
+
+// Gets the movies for a given cast member ID, used in moviesByCastPage.jsx to show the movies for a cast member clicked in movieDetailsPage
+// based on getMovieReviews
+export const getMoviesByCast = ({ queryKey }) => {
+  const [, idPart] = queryKey;
+  const { id } = idPart;
+  return fetch(
+    `https://api.themoviedb.org/3/discover/movie?api_key=${import.meta.env.VITE_TMDB_KEY}&language=en-US&include_adult=false&page=1&with_cast=${id}`
+  ).then((response) => {
+    if (!response.ok) {
+      return response.json().then((error) => {
+        throw new Error(error.status_message || "Something went wrong");
+      });
+    }
+    return response.json();
+  }).then((json) => json.results)
+    .catch((error) => {
+      throw error
+    });
+};

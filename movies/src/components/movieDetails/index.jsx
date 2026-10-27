@@ -11,6 +11,8 @@ import Drawer from "@mui/material/Drawer";
 import MovieReviews from "../movieReviews"
 import { Link } from "react-router"
 import popcornIcon from "../../images/popcorn-icon.png";
+import { getCastByMovie } from "../../api/tmdb-api";
+import { useQuery } from "@tanstack/react-query";
 
 let tmdbTinyImageUrl = 'https://image.tmdb.org/t/p/w92/';
 
@@ -26,6 +28,11 @@ const chip = { margin: 0.5 };
 
 const MovieDetails = ({ movie }) => {
   const [drawerOpen, setDrawerOpen] = useState(false);
+
+  const { data: cast = [] } = useQuery({
+    queryKey: ["cast", { id: movie.id }],
+    queryFn: getCastByMovie,
+  });
 
   return (
     <>
@@ -84,6 +91,23 @@ const MovieDetails = ({ movie }) => {
           </li>
         ))}
       </Paper>
+
+      <Paper
+        component="ul"
+        sx={{ ...root }}
+      >
+        <li>
+          <Chip label="Cast Members" sx={{ ...chip }} color="primary" />
+        </li>
+        {cast.map((cm) => (
+          <li key={cm.name}>
+            <Link to={`/cast/${cm.id}/${cm.name}`}>
+            <Chip label={cm.name} /> 
+          </Link>
+          </li>
+        ))}
+      </Paper>
+
       <Paper component="ul" sx={{ ...root }}>
         <Chip icon={<AccessTimeIcon />}
           label={`${movie.runtime} min.`}
