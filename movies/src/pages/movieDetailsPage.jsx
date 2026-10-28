@@ -5,17 +5,15 @@ import PageTemplate from "../components/templateMoviePage";
 import { getMovie } from '../api/tmdb-api'
 import { useQuery } from '@tanstack/react-query';
 import Spinner from '../components/spinner'
-// import useMovie from "../hooks/useMovie";   Redundant
 
-
-const MoviePage = (props) => {
+const MoviePage = () => {
   const { id } = useParams();
-  // Custom hooks allow us to extract component state logic into reusable functions. As an example, we will define a custom hook that manages a movie object state variable.
+
   // Array Keys / Cache keys
   // Here the cache entry key is a serializable array contraining the values [“movie”, { id: xxxxx }].
   // See getMovie in src/api/tmdb-api.jsx
-  const { data: movie, error, isPending, isError  } = useQuery({
-    queryKey: ['movie', {id: id}],
+  const { data: movie, error, isPending, isError } = useQuery({
+    queryKey: ['movie', { id: id }],
     queryFn: getMovie,
   })
 
@@ -27,19 +25,11 @@ const MoviePage = (props) => {
     return <h1>{error.message}</h1>;
   }
 
-
+  /* No need for a ternary anymore as isPending already handles waiting above */
   return (
-    <>
-      {movie ? (
-        <>
-          <PageTemplate movie={movie}>
-            <MovieDetails movie={movie} />
-          </PageTemplate>
-        </>
-      ) : (
-        <p>Waiting for movie details</p>
-      )}
-    </>
+    <PageTemplate movie={movie}>
+      <MovieDetails movie={movie} />
+    </PageTemplate>
   );
 };
 
