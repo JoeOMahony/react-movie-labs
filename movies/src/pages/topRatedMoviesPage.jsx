@@ -2,7 +2,6 @@ import React from "react";
 import MovieListTemplate from '../components/templateMovieListPage'
 import { getTopRatedMovies } from "../api/tmdb-api"
 import AddToFavorites from '../components/cardIcons/addToFavorites'
-import { useParams } from "react-router";
 import { useQuery } from '@tanstack/react-query';
 import Spinner from '../components/spinner'
 
