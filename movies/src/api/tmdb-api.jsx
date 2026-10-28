@@ -126,12 +126,22 @@ export const getTopRatedMovies = (id) => {
 };
 
 // Dynamic page to fetch movies for a genre
-export const getMoviesByGenre = (genreId) => {
+export const getMoviesByGenre = ({ queryKey }) => {
+  const [, idPart] = queryKey;
+  const { id } = idPart;
   return fetch(
-    `https://api.themoviedb.org/3/discover/movie?api_key=${import.meta.env.VITE_TMDB_KEY}&language=en-US&include_adult=false&page=1&with_genres=${genreId}`
-  )
-    .then((res) => res.json())
-    .then((json) => json.results);
+    `https://api.themoviedb.org/3/discover/movie?api_key=${import.meta.env.VITE_TMDB_KEY}&language=en-US&include_adult=false&page=1&with_genres=${id}`
+  ).then((response) => {
+    if (!response.ok) {
+      return response.json().then((error) => {
+        throw new Error(error.status_message || "Something went wrong");
+      });
+    }
+    return response.json();
+  }).then((json) => json.results)
+    .catch((error) => {
+      throw error
+    });
 };
 
 // Dynamic page to fetch movies for a country
