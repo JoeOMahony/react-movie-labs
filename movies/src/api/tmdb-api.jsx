@@ -95,16 +95,27 @@ export const getMovieReviews = ({ queryKey }) => {
     });
 };
 
-// Exercise 02 Lab 02 
+// Originally for Exercise 02 Lab 02 (adapted since)
 // Gets upcoming movies
-export const getUpcomingMovies = (id) => {
+// Based on getTopRatedMovies
+export const getUpcomingMovies = () => {
+  // const [, idPart] = queryKey;
+  // const { id } = idPart;
   return fetch(
     `https://api.themoviedb.org/3/movie/upcoming?api_key=${import.meta.env.VITE_TMDB_KEY}&language=en-US&page=1`
-  )
-    .then((res) => res.json())
-    .then((json) => {
-      console.log('upcoming movies: ', json.results);
-      return json.results;
+  ).then((response) => {
+    if (!response.ok) {
+      return response.json().then((error) => {
+        throw new Error(error.status_message || "Something went wrong");
+      });
+    }
+    return response.json();
+  }).then((json) => {
+    console.log('upcoming movies: ', json.results);
+    return json.results;
+  })
+    .catch((error) => {
+      throw error
     });
 };
 
