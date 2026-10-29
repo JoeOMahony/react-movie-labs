@@ -13,6 +13,7 @@ import { Link } from "react-router"
 import popcornIcon from "../../images/popcorn-icon.png";
 import { getCastByMovie } from "../../api/tmdb-api";
 import { useQuery } from "@tanstack/react-query";
+import { getDirectorsByMovie } from "../../api/tmdb-api";
 
 let tmdbTinyImageUrl = 'https://image.tmdb.org/t/p/w92/';
 
@@ -29,14 +30,21 @@ const chip = { margin: 0.5 };
 const MovieDetails = ({ movie }) => {
   const [drawerOpen, setDrawerOpen] = useState(false);
 
+  // Getting cast members for a given movie
   const { data: cast = [] } = useQuery({
     queryKey: ["cast", { id: movie.id }],
     queryFn: getCastByMovie,
   });
 
+  // Getting directors for a given movie
+  const { data: directors = [] } = useQuery({
+    queryKey: ["directors", { id: movie.id }],
+    queryFn: getDirectorsByMovie,
+  });
+
   return (
     <>
-      <Typography variant="h5" component="h3" sx={{ mb: 2, mt: 1,  fontWeight: 'bold' }}>
+      <Typography variant="h5" component="h3" sx={{ mb: 2, mt: 1, fontWeight: 'bold' }}>
         Overview
       </Typography>
 
@@ -65,14 +73,16 @@ const MovieDetails = ({ movie }) => {
         sx={{ ...root }}
       >
         <li>
-          <Chip label="Production Countries" sx={{ ...chip }} color="primary" />
+          <Chip 
+          label={ movie.production_countries.length == 1 ? "Production Country" : "Production Countries" }
+          sx={{ ...chip }} color="primary" />
         </li>
         {movie.production_countries.map((pCountry) => (
           <li key={pCountry.name}>
             <Link to={`/countries/${pCountry.iso_3166_1}/${pCountry.name}`}>
-            { /* https://flagpedia.net/download/api */ }
-            <Chip label={pCountry.name} icon={<img src={`https://flagcdn.com/24x18/${pCountry.iso_3166_1.toLowerCase()}.png`} alt={pCountry.name} height="18" width="24" />} sx={{ ...chip }} />
-          </Link>
+              { /* https://flagpedia.net/download/api */}
+              <Chip label={pCountry.name} icon={<img src={`https://flagcdn.com/24x18/${pCountry.iso_3166_1.toLowerCase()}.png`} alt={pCountry.name} height="18" width="24" />} sx={{ ...chip }} />
+            </Link>
           </li>
         ))}
       </Paper>
@@ -81,12 +91,33 @@ const MovieDetails = ({ movie }) => {
         sx={{ ...root }}
       >
         <li>
-          <Chip label="Production Companies" sx={{ ...chip }} color="primary" />
+          <Chip 
+          label={ movie.production_companies.length == 1 ? "Production Company" : "Production Companies" }
+          sx={{ ...chip }} color="primary" />
         </li>
         {movie.production_companies.map((pCompany) => (
           <li key={pCompany.name}>
-            <Link to ={`/companies/${pCompany.id}/${pCompany.name}`}>
-            <Chip label={pCompany.name} sx={{ ...chip }} icon={<img src={pCompany.logo_path !== null ? tmdbTinyImageUrl + pCompany.logo_path : popcornIcon} alt={pCompany.name} width="32" height="16" />} />
+            <Link to={`/companies/${pCompany.id}/${pCompany.name}`}>
+              <Chip label={pCompany.name} sx={{ ...chip }} icon={<img src={pCompany.logo_path !== null ? tmdbTinyImageUrl + pCompany.logo_path : popcornIcon} alt={pCompany.name} width="32" height="16" />} />
+            </Link>
+          </li>
+        ))}
+      </Paper>
+
+      <Paper
+        component="ul"
+        sx={{ ...root }}
+      >
+        
+        <li>
+          <Chip 
+          label={ directors.length == 1 ? "Director" : "Directors"}
+          sx={{ ...chip }} color="primary" />
+        </li>
+        {directors.map((director) => (
+          <li key={director.id}>
+            <Link to={`/directors/${director.id}/${director.name}`}>
+              <Chip label={director.name} sx={{ ...chip }} />
             </Link>
           </li>
         ))}
@@ -102,8 +133,8 @@ const MovieDetails = ({ movie }) => {
         {cast.map((cm) => (
           <li key={cm.name}>
             <Link to={`/cast/${cm.id}/${cm.name}`}>
-            <Chip label={cm.name} /> 
-          </Link>
+              <Chip label={cm.name} />
+            </Link>
           </li>
         ))}
       </Paper>

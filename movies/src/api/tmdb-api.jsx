@@ -245,3 +245,25 @@ export const getMoviesByCast = ({ queryKey }) => {
       throw error
     });
 };
+
+// Gets the director(s) for a given movie ID, used in movieDetailsPage to show the director(s) and in moviesByDirectorPage when clicked
+// based on getMoviesByCast
+export const getDirectorsByMovie = ({ queryKey }) => {
+  const [, idPart] = queryKey;
+  const { id } = idPart;
+  return fetch(
+    `https://api.themoviedb.org/3/movie/${id}/credits?api_key=${import.meta.env.VITE_TMDB_KEY}`
+  ).then((response) => {
+    if (!response.ok) {
+      return response.json().then((error) => {
+        throw new Error(error.status_message || "Something went wrong");
+      });
+    }
+    return response.json();
+  }).then(data => {
+    const directors = data.crew.filter(member => member.job === 'Director');
+    return directors;
+  }).catch((error) => {
+      throw error
+    });
+};
