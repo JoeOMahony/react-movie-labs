@@ -15,6 +15,9 @@ import { getCastByMovie } from "../../api/tmdb-api";
 import { useQuery } from "@tanstack/react-query";
 import { getDirectorsByMovie } from "../../api/tmdb-api";
 import Avatar from '@mui/material/Avatar';
+import directorIcon from "../../images/director-board.png";
+import personIcon from "../../images/person-icon.png";
+import companyIcon from "../../images/company-icon.png";
 
 let tmdbTinyImageUrl = 'https://image.tmdb.org/t/p/w92/';
 
@@ -68,7 +71,9 @@ const MovieDetails = ({ movie }) => {
           </li>
         ))}
       </Paper>
+  
       {/* Movie App Lab 02 Exercise 01: Production countries arr */}
+      { movie.production_countries?.length > 0 && (
       <Paper
         component="ul"
         sx={{ ...root }}
@@ -87,11 +92,14 @@ const MovieDetails = ({ movie }) => {
           </li>
         ))}
       </Paper>
-      <Paper
-        component="ul"
-        sx={{ ...root }}
-      >
-        <li>
+      )}
+
+      {movie.production_companies?.length > 0 && (
+        <Paper
+          component="ul"
+          sx={{ ...root }}
+        >
+          <li>
           <Chip 
           label={ movie.production_companies.length == 1 ? "Production Company" : "Production Companies" }
           sx={{ ...chip }} color="primary" />
@@ -99,17 +107,18 @@ const MovieDetails = ({ movie }) => {
         {movie.production_companies.map((pCompany) => (
           <li key={pCompany.name}>
             <Link to={`/companies/${pCompany.id}/${pCompany.name}`}>
-              <Chip label={pCompany.name} sx={{ ...chip }} icon={<img src={pCompany.logo_path !== null ? tmdbTinyImageUrl + pCompany.logo_path : popcornIcon} alt={pCompany.name} width="32" height="16" />} />
+              <Chip label={pCompany.name} sx={{ ...chip }} icon={<img src={pCompany.logo_path !== null ? tmdbTinyImageUrl + pCompany.logo_path : companyIcon} alt={pCompany.name} width="32" height="16" />} />
             </Link>
           </li>
         ))}
       </Paper>
+      )}
 
+      { directors?.length > 0 && (
       <Paper
         component="ul"
         sx={{ ...root }}
       >
-        
         <li>
           <Chip 
           label={ directors.length == 1 ? "Director" : "Directors"}
@@ -121,7 +130,7 @@ const MovieDetails = ({ movie }) => {
               <Chip label={director.name} sx={{ ...chip }} 
               avatar={
                   <Avatar
-                    src={director.profile_path !== null ? tmdbTinyImageUrl + director.profile_path : popcornIcon}
+                    src={director.profile_path !== null ? tmdbTinyImageUrl + director.profile_path : directorIcon}
                     alt={director.name}
                   />
                 }/>
@@ -129,7 +138,9 @@ const MovieDetails = ({ movie }) => {
           </li>
         ))}
       </Paper>
+      )}
 
+      { cast?.length > 0 && (
       <Paper
         component="ul"
         sx={{ ...root }}
@@ -143,7 +154,7 @@ const MovieDetails = ({ movie }) => {
               <Chip label={cm.name} 
               avatar={
                   <Avatar
-                    src={cm.profile_path !== null ? tmdbTinyImageUrl + cm.profile_path : popcornIcon}
+                    src={cm.profile_path !== null ? tmdbTinyImageUrl + cm.profile_path : personIcon}
                     alt={cm.name}
                   />
                 }/>
@@ -151,6 +162,7 @@ const MovieDetails = ({ movie }) => {
           </li>
         ))}
       </Paper>
+      )}
 
       <Paper component="ul" sx={{ ...root }}>
         <Chip icon={<AccessTimeIcon />}
