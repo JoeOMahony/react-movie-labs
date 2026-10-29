@@ -140,7 +140,13 @@ const MovieDetails = ({ movie }) => {
         {cast.map((cm) => (
           <li key={cm.name}>
             <Link to={`/cast/${cm.id}/${cm.name}`}>
-              <Chip label={cm.name} />
+              <Chip label={cm.name} 
+              avatar={
+                  <Avatar
+                    src={cm.profile_path !== null ? tmdbTinyImageUrl + cm.profile_path : popcornIcon}
+                    alt={cm.name}
+                  />
+                }/>
             </Link>
           </li>
         ))}
