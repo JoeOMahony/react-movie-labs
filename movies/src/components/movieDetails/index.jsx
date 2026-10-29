@@ -14,6 +14,7 @@ import popcornIcon from "../../images/popcorn-icon.png";
 import { getCastByMovie } from "../../api/tmdb-api";
 import { useQuery } from "@tanstack/react-query";
 import { getDirectorsByMovie } from "../../api/tmdb-api";
+import Avatar from '@mui/material/Avatar';
 
 let tmdbTinyImageUrl = 'https://image.tmdb.org/t/p/w92/';
 
@@ -117,7 +118,13 @@ const MovieDetails = ({ movie }) => {
         {directors.map((director) => (
           <li key={director.id}>
             <Link to={`/directors/${director.id}/${director.name}`}>
-              <Chip label={director.name} sx={{ ...chip }} />
+              <Chip label={director.name} sx={{ ...chip }} 
+              avatar={
+                  <Avatar
+                    src={director.profile_path !== null ? tmdbTinyImageUrl + director.profile_path : popcornIcon}
+                    alt={director.name}
+                  />
+                }/>
             </Link>
           </li>
         ))}
