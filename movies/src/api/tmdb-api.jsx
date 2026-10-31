@@ -267,3 +267,25 @@ export const getDirectorsByMovie = ({ queryKey }) => {
       throw error
     });
 };
+
+// Gets the first 5 similar movies for a given movie ID, used by movieDetails component
+// based on getCastByMovie
+// https://developer.themoviedb.org/reference/movie-similar
+export const getSimilarMovies = ({ queryKey }) => {
+  const [, idPart] = queryKey;
+  const { id } = idPart;
+  return fetch(
+    `https://api.themoviedb.org/3/movie/${id}/similar?api_key=${import.meta.env.VITE_TMDB_KEY}&language=en-US&page=1`
+  ).then((response) => {
+    if (!response.ok) {
+      return response.json().then((error) => {
+        throw new Error(error.status_message || "Something went wrong");
+      });
+    }
+    return response.json();
+  }).then((json) => json.results)
+    .then((similar) => similar.slice(0, 5)) // only want first 5 to avoid cluttering
+    .catch((error) => {
+      throw error
+    });
+};

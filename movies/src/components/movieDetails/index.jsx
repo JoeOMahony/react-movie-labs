@@ -18,6 +18,7 @@ import Avatar from '@mui/material/Avatar';
 import directorIcon from "../../images/director-board.png";
 import personIcon from "../../images/person-icon.png";
 import companyIcon from "../../images/company-icon.png";
+import { getSimilarMovies } from "../../api/tmdb-api";
 
 let tmdbTinyImageUrl = 'https://image.tmdb.org/t/p/w92/';
 
@@ -45,6 +46,12 @@ const MovieDetails = ({ movie }) => {
   const { data: directors = [] } = useQuery({
     queryKey: ["directors", { id: movie.id }],
     queryFn: getDirectorsByMovie,
+  });
+
+  // Getting similar movies for a given movie
+  const { data: similarMovies = [] } = useQuery({
+    queryKey: ["similar", { id: movie.id }],
+    queryFn: getSimilarMovies,
   });
 
   return (
@@ -157,6 +164,30 @@ const MovieDetails = ({ movie }) => {
                   <Avatar
                     src={cm.profile_path !== null ? tmdbTinyImageUrl + cm.profile_path : personIcon}
                     alt={cm.name}
+                  />
+                }/>
+            </Link>
+          </li>
+        ))}
+      </Paper>
+      )}
+
+      {similarMovies.length > 0 && (
+      <Paper
+        component="ul"
+        sx={{ ...root }}
+      >
+        <li>
+          <Chip label="Similar Movies" sx={{ ...chip }} color="primary" />
+        </li>
+        {similarMovies.map((sm) => (
+          <li key={sm.id}>
+            <Link to={`/movies/${sm.id}`}>
+              <Chip label={sm.title} sx={{ ...chip }} 
+              avatar={
+                  <Avatar
+                    src={sm.poster_path !== null ? tmdbTinyImageUrl + sm.poster_path : popcornIcon}
+                    alt={sm.title}
                   />
                 }/>
             </Link>
