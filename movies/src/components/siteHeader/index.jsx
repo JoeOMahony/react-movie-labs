@@ -44,6 +44,7 @@ const SiteHeader = () => {
         { label: "Upcoming", path: "/upcoming" },
         { label: "Top Rated", path: "/top-rated" },
         { label: "Watch List", path: "/watchlist" },
+        { label: "Trending", path: "/trending" },
     ];
 
     const handleMenuSelect = (pageURL) => {
