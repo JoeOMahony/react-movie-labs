@@ -4,7 +4,8 @@ import AddToFavorites from '../components/cardIcons/addToFavorites'
 import { getMoviesByCast } from "../api/tmdb-api"
 import { useParams } from "react-router";
 import { useQuery } from '@tanstack/react-query';
-import Spinner from '../components/spinner'
+import Spinner from '../components/spinner';
+import ErrorDisplay from "../components/errorDisplay";
 
 const MoviesByCastPage = (props) => {
     const { castId, castName } = useParams();
@@ -26,7 +27,7 @@ const MoviesByCastPage = (props) => {
     }
 
     if (isError) {
-        return <h3 style={{ color: 'red', fontWeight: 'bold' }}>Fetch error: {error.message}</h3>;
+        return <ErrorDisplay resource={`movies by ${castName}`} message={error.message} /> 
     }
 
     return (

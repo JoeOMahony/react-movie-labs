@@ -3,7 +3,8 @@ import MovieListTemplate from '../components/templateMovieListPage'
 import { getTrendingMovies } from "../api/tmdb-api"
 import AddToWatchList from '../components/cardIcons/addToWatchList'
 import { useQuery } from '@tanstack/react-query';
-import Spinner from '../components/spinner'
+import Spinner from '../components/spinner';
+import ErrorDisplay from "../components/errorDisplay";
 
 // Based on upcomingMoviesPage
 const TrendingMoviesPage = (props) => {
@@ -21,7 +22,7 @@ const TrendingMoviesPage = (props) => {
     }
 
     if (isError) {
-        return <h3 style={{ color: 'red', fontWeight: 'bold' }}>Fetch error: {error.message}</h3>;
+        return <ErrorDisplay resource={`trending movies`} message={error.message} /> 
     }
 
     return (

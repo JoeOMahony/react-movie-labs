@@ -3,7 +3,8 @@ import MovieListTemplate from '../components/templateMovieListPage'
 import { getTopRatedMovies } from "../api/tmdb-api"
 import AddToFavorites from '../components/cardIcons/addToFavorites'
 import { useQuery } from '@tanstack/react-query';
-import Spinner from '../components/spinner'
+import Spinner from '../components/spinner';
+import ErrorDisplay from "../components/errorDisplay";
 
 const TopRatedMoviesPage = (props) => {
   // const { id, name } = useParams();
@@ -24,7 +25,7 @@ const TopRatedMoviesPage = (props) => {
     }
 
     if (isError) {
-        return <h3 style={{ color: 'red', fontWeight: 'bold' }}>Fetch error: {error.message}</h3>;
+        return <ErrorDisplay resource={`top rated movies`} message={error.message} /> 
     }
 
     return (

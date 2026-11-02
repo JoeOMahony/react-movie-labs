@@ -26,7 +26,7 @@ const DirectorMoviesPage = (props) => {
     }
 
     if (isError) {
-        return <ErrorDisplay  resource={`${name} movies`} message={error} />
+        return <ErrorDisplay resource={`${name} movies`} message={error.message} /> // not the Error obj
     }
 
     return (

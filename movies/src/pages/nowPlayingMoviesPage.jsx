@@ -3,7 +3,8 @@ import MovieListTemplate from '../components/templateMovieListPage'
 import { getNowPlayingMovies } from "../api/tmdb-api"
 import AddToFavorites from '../components/cardIcons/addToFavorites'
 import { useQuery } from '@tanstack/react-query';
-import Spinner from '../components/spinner'
+import Spinner from '../components/spinner';
+import ErrorDisplay from "../components/errorDisplay";
 
 // Based on topRatedMoviesPage
 const NowPlayingMoviesPage = (props) => {
@@ -25,7 +26,7 @@ const NowPlayingMoviesPage = (props) => {
     }
 
     if (isError) {
-        return <h3 style={{ color: 'red', fontWeight: 'bold' }}>Fetch error: {error.message}</h3>;
+        return <ErrorDisplay resource={`now playing movies`} message={error.message} /> 
     }
 
     return (

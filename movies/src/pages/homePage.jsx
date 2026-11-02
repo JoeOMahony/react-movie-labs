@@ -5,6 +5,7 @@ import { useQuery } from '@tanstack/react-query';
 import Spinner from '../components/spinner';
 import AddToFavoritesIcon from '../components/cardIcons/addToFavorites'
 import AddToWatchListIcon from '../components/cardIcons/addToWatchList'
+import ErrorDisplay from "../components/errorDisplay";
 
 const HomePage = (props) => {
   /* 
@@ -21,7 +22,7 @@ const HomePage = (props) => {
   }
 
   if (isError) {
-    return <h1>{error.message}</h1>
+    return <ErrorDisplay resource={`movies`} message={error.message} /> 
   }
 
   const movies = data.results;

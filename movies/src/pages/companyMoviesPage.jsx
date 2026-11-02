@@ -5,6 +5,7 @@ import { getMoviesByCompany } from "../api/tmdb-api"
 import { useParams } from "react-router";
 import { useQuery } from '@tanstack/react-query';
 import Spinner from '../components/spinner'
+import ErrorDisplay from "../components/errorDisplay"
 
 // Based on favoriteMoviesPage.jsx
 const CompanyMoviesPage = (props) => {
@@ -25,7 +26,7 @@ const CompanyMoviesPage = (props) => {
     }
 
     if (isError) {
-        return <h3 style={{ color: 'red', fontWeight: 'bold' }}>Fetch error: {error.message}</h3>;
+        return <ErrorDisplay resource={`movies by ${name}`} message={error.message} /> 
     }
 
     return (

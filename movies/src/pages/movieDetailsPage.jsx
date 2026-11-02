@@ -4,7 +4,8 @@ import MovieDetails from "../components/movieDetails/";
 import PageTemplate from "../components/templateMoviePage";
 import { getMovie } from '../api/tmdb-api'
 import { useQuery } from '@tanstack/react-query';
-import Spinner from '../components/spinner'
+import Spinner from '../components/spinner';
+import ErrorDisplay from "../components/errorDisplay";
 
 const MoviePage = () => {
   const { id } = useParams();
@@ -22,7 +23,7 @@ const MoviePage = () => {
   }
 
   if (isError) {
-    return <h1>{error.message}</h1>;
+    return <ErrorDisplay resource={`movies`} message={error.message} /> 
   }
 
   /* No need for a ternary anymore as isPending already handles waiting above */
