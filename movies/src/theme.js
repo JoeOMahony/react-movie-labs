@@ -44,6 +44,23 @@ const themeOptions = {
       letterSpacing: 0.2,
       color: "#660202",
       fontStyle: 'italic'
+    },
+    pageErrorHeadFont: {
+      fontWeight: 550,
+      color: "#ca0000",
+      textDecoration: 'underline'
+    },
+    pageErrorBodyFont: {
+      fontWeight: 500,
+      color: "#000000"
+    },
+    pageErrorCodeFont: {
+      fontWeight: 400,
+      color: "#000000"
+    },
+    errorIconFont: { // adding it here to avoid needing to change all the pages that use it again
+      fontSize: 60, 
+      color: "#ca0000"
     }
   }
 }

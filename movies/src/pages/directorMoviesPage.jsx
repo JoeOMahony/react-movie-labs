@@ -5,6 +5,7 @@ import { getMoviesByDirector } from "../api/tmdb-api"
 import { useParams } from "react-router";
 import { useQuery } from '@tanstack/react-query';
 import Spinner from '../components/spinner'
+import ErrorDisplay from "../components/errorDisplay"
 
 // Based on favoriteMoviesPage.jsx
 const DirectorMoviesPage = (props) => {
@@ -25,7 +26,7 @@ const DirectorMoviesPage = (props) => {
     }
 
     if (isError) {
-        return <h3 style={{ color: 'red', fontWeight: 'bold' }}>Fetch error: {error.message}</h3>;
+        return <ErrorDisplay resource="movies by director" message={error} />
     }
 
     return (
