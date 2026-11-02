@@ -26,7 +26,7 @@ const DirectorMoviesPage = (props) => {
     }
 
     if (isError) {
-        return <ErrorDisplay resource="movies by director" message={error} />
+        return <ErrorDisplay  resource={`${name} movies`} message={error} />
     }
 
     return (

@@ -3,7 +3,7 @@ import { Typography } from "@mui/material";
 import ErrorIcon from '@mui/icons-material/Error';
 
 const ErrorDisplay = (props) => {
-    const resource = props.resource ? `There was an error when handling your ${props.resource} fetch request!` : "There was an error when handling your fetch request";
+    const resource = props.resource ? `There was an error when handling your ${props.resource} request!` : "There was an error when handling your fetch request";
     const message = props.message ? props.message : "Unknown error";
     return (
         <div align="center">
