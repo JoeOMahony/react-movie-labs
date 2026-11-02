@@ -290,6 +290,7 @@ export const getSimilarMovies = ({ queryKey }) => {
     });
 };
 
+// Static Page 02 for assignment
 // Get trending movies for the week
 // Used by trendingMoviesPage.jsx
 export const getTrendingMovies = ({ queryKey }) => {
@@ -308,7 +309,7 @@ export const getTrendingMovies = ({ queryKey }) => {
     });
 };
 
-// Static Page 02 for assignment
+// Static Page 03 for assignment
 // Get now playing movies for the week
 // Used by nowPlayingMoviesPage.jsx
 export const getNowPlayingMovies = ({ queryKey }) => {
