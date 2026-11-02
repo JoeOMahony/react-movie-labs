@@ -5,6 +5,7 @@ import Grid from "@mui/material/Grid";
 import ImageList from "@mui/material/ImageList";
 import ImageListItem from "@mui/material/ImageListItem";
 import { getMovieImages } from "../../api/tmdb-api";
+import ErrorDisplay from "../errorDisplay";
 
 const TemplateMoviePage = ({ movie, children }) => {
   const { data, error, isPending, isError } = useQuery({
@@ -17,7 +18,7 @@ const TemplateMoviePage = ({ movie, children }) => {
   }
 
   if (isError) {
-    return <h1>{error.message}</h1>;
+    return <ErrorDisplay resource={`$movies`} message={error.message} /> 
   }
 
   const images = data.posters

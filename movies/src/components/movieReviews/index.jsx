@@ -10,6 +10,7 @@ import Paper from "@mui/material/Paper";
 import { Link } from "react-router";
 import { getMovieReviews } from "../../api/tmdb-api";
 import { excerpt } from "../../util";
+import ErrorDisplay from "../errorDisplay";
 
 // displays review extracts in a table layout,
 export default function MovieReviews({ movie }) {
@@ -23,7 +24,7 @@ export default function MovieReviews({ movie }) {
   }
 
   if (isError) {
-    return <h1>{error.message}</h1>;
+    return <ErrorDisplay resource={`movie reviews`} message={error.message} /> 
   }
   
   const reviews = data.results;

@@ -13,7 +13,7 @@ import img from '../../images/pexels-brunorock-popcorn.jpg';
 import { getGenres } from "../../api/tmdb-api";
 import { useQuery } from '@tanstack/react-query';
 import Spinner from '../spinner';
-
+import ErrorDisplay from "../errorDisplay";
 
 const formControl =
 {
@@ -33,7 +33,7 @@ export default function FilterMoviesCard(props) {
   }
 
   if (isError) {
-    return <h1>{error.message}</h1>;
+    return <ErrorDisplay resource={`filter movies`} message={error.message} /> 
   }
   const genres = data.genres;
   if (genres[0].name !== "All"){
