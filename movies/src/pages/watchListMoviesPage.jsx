@@ -6,6 +6,7 @@ import { getMovie } from "../api/tmdb-api";
 import Spinner from '../components/spinner'
 import RemoveFromWatchList from "../components/cardIcons/removeFromWatchListIcon";
 import WriteReview from "../components/cardIcons/writeReview";
+import ErrorDisplay from "../components/errorDisplay"
 
 const WatchListMoviesPage = () => {
   const {myWatchList: movieIds } = useContext(MoviesContext);
@@ -22,9 +23,13 @@ const WatchListMoviesPage = () => {
   
   // Check if any of the parallel queries is still loading.
   const isPending = watchListMovieQueries.find((m) => m.isPending === true);
-
   if (isPending) {
     return <Spinner />;
+  }
+
+  const isError = watchListMovieQueries.find((m) => m.isError === true);
+  if (isError) {
+    return <ErrorDisplay resource={`watchlist movies`} message={isError.error.message} /> 
   }
 
   const movies = watchListMovieQueries.map((q) => {
@@ -32,7 +37,6 @@ const WatchListMoviesPage = () => {
     return q.data
   });
 
-  const toDo = () => true;
     // introducing the render prop
     return (
     <PageTemplate

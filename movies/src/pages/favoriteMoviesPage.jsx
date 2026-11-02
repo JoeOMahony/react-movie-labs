@@ -6,6 +6,7 @@ import { getMovie } from "../api/tmdb-api";
 import Spinner from '../components/spinner'
 import RemoveFromFavorites from "../components/cardIcons/removeFromFavorites";
 import WriteReview from "../components/cardIcons/writeReview";
+import ErrorDisplay from "../components/errorDisplay"
 
 const FavoriteMoviesPage = () => {
   const {favorites: movieIds } = useContext(MoviesContext);
@@ -22,9 +23,13 @@ const FavoriteMoviesPage = () => {
   
   // Check if any of the parallel queries is still loading.
   const isPending = favoriteMovieQueries.find((m) => m.isPending === true);
-
   if (isPending) {
     return <Spinner />;
+  }
+
+  const isError = favoriteMovieQueries.find((m) => m.isError === true);
+  if (isError) {
+    return <ErrorDisplay resource={`favourite movies`} message={isError.error.message} /> 
   }
 
   const movies = favoriteMovieQueries.map((q) => {
@@ -32,7 +37,6 @@ const FavoriteMoviesPage = () => {
     return q.data
   });
 
-  const toDo = () => true;
     // introducing the render prop
     return (
     <PageTemplate
