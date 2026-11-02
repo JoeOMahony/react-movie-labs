@@ -268,6 +268,29 @@ export const getDirectorsByMovie = ({ queryKey }) => {
     });
 };
 
+// Need the return route from getDirectorsByMovie
+// used by directorMoviesPage
+// https://www.themoviedb.org/talk/61d0bb321b722c008beb79c2
+export const getMoviesByDirector = ({ queryKey }) => {
+  const [, idPart] = queryKey;
+  const { id } = idPart;
+  return fetch(
+    `https://api.themoviedb.org/3/person/${id}/combined_credits?api_key=${import.meta.env.VITE_TMDB_KEY}&language=en-US&page=1`
+ ).then((response) => {
+    if (!response.ok) {
+      return response.json().then((error) => {
+        throw new Error(error.status_message || "Something went wrong");
+      });
+    }
+    return response.json();
+  }).then(data => {
+    const directors = data.crew.filter(member => member.job === 'Director');
+    return directors;
+  }).catch((error) => {
+      throw error
+    });
+};
+
 // Gets the first 5 similar movies for a given movie ID, used by movieDetails component
 // based on getCastByMovie
 // https://developer.themoviedb.org/reference/movie-similar

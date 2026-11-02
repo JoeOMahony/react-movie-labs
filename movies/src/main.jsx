@@ -21,6 +21,7 @@ import CompanyMoviesPage from "./pages/companyMoviesPage";
 import MoviesByCastPage from "./pages/moviesByCastPage.jsx";
 import TrendingMoviesPage from "./pages/trendingMoviesPage.jsx";
 import NowPlayingMoviesPage from "./pages/nowPlayingMoviesPage.jsx";
+import DirectorMoviesPage from "./pages/directorMoviesPage.jsx";
 
 // will manage the cache in the browser
 // [The above configuration will retain all data in the cache for 1 hour before it becomes invalidated.]
@@ -56,6 +57,7 @@ const App = () => {
             <Route path="/cast/:castId/:castName" element={<MoviesByCastPage />} />
             <Route path="/trending" element={<TrendingMoviesPage />} />
             <Route path="/now-playing" element={<NowPlayingMoviesPage />} />
+            <Route path ="/directors/:id/:name" element={<DirectorMoviesPage />} /> 
           </Routes>
         </MoviesContextProvider>
       </BrowserRouter>
