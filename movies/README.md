@@ -1,16 +1,32 @@
-# React + Vite
+# React Movies App
+**Module:** Web App Development 2   
+**Weight:** 40%      
+**Due:** Sunday 08 November 23:59
+## Submitter Details
+**Name:** Joe O'Mahony    
+**Student Number:** 21788075    
+**Course:** B.Sc. in Software Systems Development    
+**Term:** Year 4 Semester 1    
+## Project Patterns
+### Static Page Pattern
+This pattern describes how static pages were added to the website. Examples of static pages include the Now Playing (`nowPlayingMoviesPage`), Trending (`trendingMoviesPage`), Top Rated (`topRatedMoviesPage`), and Upcoming (`upcomingMoviesPage`) pages, as available in the site header.
+#### (1). Add the query function to `tmdb-api`
+Static pages do not need a queryKey to pass to the URL as a parameter, so they all follow a basic structure shown below.
 
-This template provides a minimal setup to get React working in Vite with HMR and some ESLint rules.
-
-Currently, two official plugins are available:
-
-- [@vitejs/plugin-react](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react) uses [Oxc](https://oxc.rs)
-- [@vitejs/plugin-react-swc](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react-swc) uses [SWC](https://swc.rs/)
-
-## React Compiler
-
-The React Compiler is not enabled on this template because of its impact on dev & build performances. To add it, see [this documentation](https://react.dev/learn/react-compiler/installation).
-
-## Expanding the ESLint configuration
-
-If you are developing a production application, we recommend using TypeScript with type-aware lint rules enabled. Check out the [TS template](https://github.com/vitejs/vite/tree/main/packages/create-vite/template-react-ts) for information on how to integrate TypeScript and [`typescript-eslint`](https://typescript-eslint.io) in your project.
+```jsx
+// based on getNowPlayingMovies.jsx
+export const getDataFromEndpoint = () => {
+  return fetch(
+    `https://api.themoviedb.org/3/[ENDPOINT]/?api_key=${import.meta.env.VITE_TMDB_KEY}[...params]`
+  ).then((response) => {
+    if (!response.ok) {
+      return response.json().then((error) => {
+        throw new Error(error.status_message || "Something went wrong");
+      });
+    }
+    return response.json();
+  }).then((json) => json.results[.transformHowever])
+    .catch((error) => {
+      throw error
+    });
+```
