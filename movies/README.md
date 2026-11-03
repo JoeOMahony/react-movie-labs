@@ -94,3 +94,32 @@ The page is now accessible by `/some-movies`, but there isn't any way to know th
     ];
 // ...
 ```
+
+---
+
+### Dynamic Page Pattern
+This pattern describes how dynamic pages were added to the project. Dynamic pages are pages that show results based on the URL parameters. For example, `directorMoviesPage` is going to show different movies based on the director's id. Examples of dynamic pages include Country (`countryMoviesPage`), Company (`companyMoviesPage`), Cast (`moviesByCastPage`) and Director (`directorMoviesPage`) pages, among others. Unlike static pages, all of the above pages are not reached by using the site header. They are reached through the `movieDetails` component's chips.
+
+#### (1). Add the query function to `tmdb-api`
+Dynamic pages use the queryKey passed in order to extract data to use in the URL path or append as parameters. Multiple parameters can be passed in the query key, but haven't been in this project. The key diffences from static pages are the extraction of the `idPart`, which just represents the second/last entry of the array in my case, and the destructuring of id from that. Promises are used for error handling and some query functions require the modification of the API response before the final return. For example, slicing an array of actors in `getCastByMovie`, and filtering `crew` by a specific `member.job` key's `Director` value within both `getMoviesByDirector` and `getDirectorsByMovie` JSON responses.
+
+```jsx
+// General template for fetching TMDB API data using a dynamic query parameter [key]=${id}
+export const getDataById = ({ queryKey }) => {
+  const [, idPart] = queryKey;
+  const { id } = idPart;
+  return fetch(
+    `https://api.themoviedb.org/3/[ENDPOINT]?api_key=${import.meta.env.VITE_TMDB_KEY}&[key]=${id}[...params]`
+  ).then((response) => {
+    if (!response.ok) {
+      return response.json().then((error) => {
+        throw new Error(error.status_message || "Something went wrong");
+      });
+    }
+    return response.json();
+  }).then((json) => json.results[.transformHowever])
+    .catch((error) => {
+      throw error
+    });
+};
+```
