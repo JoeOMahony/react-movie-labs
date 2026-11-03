@@ -23,13 +23,12 @@ import NowPlayingMoviesPage from "./pages/nowPlayingMoviesPage.jsx";
 import PersonDetailsPage from "./pages/personDetailsPage.jsx";
 
 // will manage the cache in the browser
-// 1 hour in ms
-let cacheTime = 60 * 60 * 1000;
+const ONE_HOUR_IN_MS = 60 * 60 * 1000;
 const queryClient = new QueryClient({
   defaultOptions: {
     queries: {
-      staleTime: cacheTime,
-      refetchInterval: cacheTime,
+      staleTime: ONE_HOUR_IN_MS,
+      refetchInterval: ONE_HOUR_IN_MS,
       refetchOnWindowFocus: false
     },
   },

@@ -49,6 +49,9 @@ const PersonDetailsPage = () => {
         return <ErrorDisplay resource={`${name} details`} message={isError ? error.message : castIsError ? castError.message : directorError.message } />
     }
 
+    const isDirector = person.known_for_department === 'Directing';
+    const movies = isDirector ? directorMovies : castMovies; 
+
     // width of 185 is a reasonable option: https://developer.themoviedb.org/docs/image-basics
     // https://developer.themoviedb.org/reference/person-details
     return (
@@ -95,27 +98,13 @@ const PersonDetailsPage = () => {
                 </Paper>
             }
 
-            {castMovies && castMovies.length > 0 &&
+            {movies && movies.length > 0 &&
                 <>
                     <Paper sx={{ padding: 2, margin: 2, backgroundColor: '#f5f5f5' }}>
                         <Typography component="h3" variant="h4">Movies<br /></Typography>
                     <Grid container>
                         <MovieList
-                            movies={castMovies}
-                            action={(movie) => <AddToFavorites movie={movie} />}
-                        />
-                    </Grid>
-                    </Paper>
-                </>
-            }
-
-            {directorMovies && directorMovies.length > 0 &&
-                <>
-                    <Paper sx={{ padding: 2, margin: 2, backgroundColor: '#f5f5f5' }}>
-                        <Typography component="h3" variant="h4">Movies<br /></Typography>
-                    <Grid container>
-                        <MovieList
-                            movies={directorMovies}
+                            movies={movies}
                             action={(movie) => <AddToFavorites movie={movie} />}
                         />
                     </Grid>
@@ -124,6 +113,6 @@ const PersonDetailsPage = () => {
             }
         </>
     );
-}
+};
 
 export default PersonDetailsPage;
