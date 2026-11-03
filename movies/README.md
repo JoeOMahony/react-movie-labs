@@ -123,3 +123,41 @@ export const getDataById = ({ queryKey }) => {
     });
 };
 ```
+#### (2). Create the page under `src/pages/`
+Dynamic pages can use `useParams` to allow parameters to be passed through the URL. I prefer writing the page before the `Route` entry as I'm never certain on what I'll need until writing the page, *e.g.*, if you only take an actor's or director's `id`, how will you put their name in the page header? The converse is also true, if you only take their `name`, how will you fetch from an endpoint requiring an `id`? The continuation of this example requires an `id`, which isn't necessarily an 'ID' in my project (although it mostly is). The dynamic parameter `id` goes into the `queryKey` so the query function can read it. Like static pages, the cache key is the queryKey, but for dynamic pages, this also incorporates the `{ id: id }`. The object key must be `id` because that's what `getDataById` destructures. Some pages also use a name parameter to customise the page title and `ErrorDisplay` message, *e.g.*, "Movies by Christopher Nolan", "Movies from Ireland", and "...an error when handling your Christopher Nolan movies request".
+```jsx
+// ...
+const SomeDynamicMoviesPage = (props) => {
+    const { id, name } = useParams();
+
+    const result = useQuery({
+        queryKey: ['someDynamicMovies', { id: id }],
+        queryFn: getDataById,
+    });
+    const movies = result.data;
+    const error = result.error;
+    const isPending = result.isPending;
+    const isError = result.isError;
+
+
+    if (isPending) {
+        return <Spinner />;
+    }
+
+    if (isError) {
+        return <ErrorDisplay resource={`${name} movies`} message={error.message} /> // not the Error obj
+    }
+
+    return (
+        <MovieListTemplate
+            title={`Some dynamic movies by ${name}`}
+            movies={movies}
+            action={(movie) => {
+                return <AddToFavorites movie={movie} />
+            }}
+        />
+    );
+};
+
+export default SomeDynamicMoviesPage; 
+```
