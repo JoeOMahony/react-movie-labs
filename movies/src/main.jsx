@@ -18,10 +18,8 @@ import WatchListMoviesPage from "./pages/watchListMoviesPage";
 import GenreMoviesPage from "./pages/genreMoviesPage";
 import CountryMoviesPage from "./pages/countryMoviesPage";
 import CompanyMoviesPage from "./pages/companyMoviesPage";
-import MoviesByCastPage from "./pages/moviesByCastPage.jsx";
 import TrendingMoviesPage from "./pages/trendingMoviesPage.jsx";
 import NowPlayingMoviesPage from "./pages/nowPlayingMoviesPage.jsx";
-import DirectorMoviesPage from "./pages/directorMoviesPage.jsx";
 import PersonDetailsPage from "./pages/personDetailsPage.jsx";
 
 // will manage the cache in the browser
@@ -55,10 +53,8 @@ const App = () => {
             <Route path="/genres/:id/:name" element={<GenreMoviesPage />} />
             <Route path="/countries/:id/:name" element={<CountryMoviesPage />} />
             <Route path="/companies/:id/:name" element={<CompanyMoviesPage />} />
-            <Route path="/cast/:castId/:castName" element={<MoviesByCastPage />} />
             <Route path="/trending" element={<TrendingMoviesPage />} />
             <Route path="/now-playing" element={<NowPlayingMoviesPage />} />
-            <Route path ="/directors/:id/:name" element={<DirectorMoviesPage />} /> 
             <Route path="/person/:id/:name" element={<PersonDetailsPage /> } />
           </Routes>
         </MoviesContextProvider>

@@ -134,7 +134,7 @@ const MovieDetails = ({ movie }) => {
         </li>
         {directors.map((director) => (
           <li key={director.id}>
-            <Link to={`/directors/${director.id}/${director.name}`}>
+            <Link to={`/person/${director.id}/${director.name}`}>
               <Chip label={director.name} sx={{ ...chip }} 
               avatar={
                   <Avatar
