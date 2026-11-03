@@ -52,7 +52,12 @@ const PersonDetailsPage = () => {
                     {person.also_known_as.length > 0 &&
                         <Typography component="p" variant="h6">Also known as {person.also_known_as.join(', ')}</Typography>
                     }
+                    {person.birthday && person.place_of_birth &&
                     <Typography component="p" variant="h6">Born {person.birthday} in {person.place_of_birth}</Typography>
+                    }
+                    {person.birthday && !(person.place_of_birth) &&
+                    <Typography component="p" variant="h6">Born {person.birthday}</Typography>
+                    }
                     {person.deathday &&
                         <Typography component="p" variant="h6">Died {person.deathday}</Typography>
                     }
