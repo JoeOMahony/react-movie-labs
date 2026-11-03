@@ -8,6 +8,11 @@ import { Avatar } from "@mui/material";
 import PersonIcon from "../images/person-icon.png"
 import { Paper } from "@mui/material";
 import { Typography } from "@mui/material";
+import { getMoviesByCast } from "../api/tmdb-api";
+import Header from "../components/headerMovieList";
+import MovieList from "../components/movieList";
+import Grid from "@mui/material/Grid";
+import AddToFavorites from "../components/cardIcons/addToFavorites";
 
 // based on movieDetailsPage
 const PersonDetailsPage = () => {
@@ -18,18 +23,29 @@ const PersonDetailsPage = () => {
         queryFn: getPersonById,
     })
 
-    if (isPending) {
+    const result = useQuery({
+        queryKey: ['personMovies', { id: id }],
+        queryFn: getMoviesByCast,
+    });
+    const movies = result.data;
+    const moviesError = result.error;
+    const moviesIsPending = result.isPending;
+    const moviesIsError = result.isError;
+
+    if (isPending || moviesIsPending) {
         return <Spinner />;
     }
 
-    if (isError) {
-        return <ErrorDisplay resource={`${name} details`} message={error.message} />
+    if (isError || moviesIsError) {
+        return <ErrorDisplay resource={`${name} details`} message={isError ? error.message : moviesError.message} />
     }
 
     // width of 185 is a reasonable option: https://developer.themoviedb.org/docs/image-basics
     // https://developer.themoviedb.org/reference/person-details
     return (
         <>
+            <Header title={person.name} />
+
             <Paper elevation={4} sx={{ padding: 2, margin: 2, display: 'flex', alignItems: 'center', backgroundColor: '#f2e5e5' }}>
                 <div>
                     <Typography component="h2" variant="h2">{person.name}</Typography>
@@ -63,6 +79,20 @@ const PersonDetailsPage = () => {
                     <Typography component="h3" variant="h4">Biography</Typography>
                     <Typography component="p" variant="body1"><br />{person.biography}</Typography>
                 </Paper>
+            }
+
+            {movies && movies.length > 0 &&
+                <>
+                    <Paper sx={{ padding: 2, margin: 2, backgroundColor: '#f5f5f5' }}>
+                        <Typography component="h3" variant="h4">Movies<br /></Typography>
+                    <Grid container>
+                        <MovieList
+                            movies={movies}
+                            action={(movie) => <AddToFavorites movie={movie} />}
+                        />
+                    </Grid>
+                    </Paper>
+                </>
             }
         </>
     );
