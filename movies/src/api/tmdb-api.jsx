@@ -351,3 +351,25 @@ export const getNowPlayingMovies = ({ queryKey }) => {
       throw error
     });
 };
+
+// Dynamic page to fetch a person by their ID
+// based on getSimilarMovies
+// Will be used in a personDetailsPage.jsx which opens when clicked from a chip in the MovieDetails component
+// https://developer.themoviedb.org/reference/person-details
+export const getPersonById = ({ queryKey }) => {
+  const [, idPart] = queryKey;
+  const { id } = idPart;
+  return fetch(
+    `https://api.themoviedb.org/3/person/${id}?api_key=${import.meta.env.VITE_TMDB_KEY}&language=en-US`
+  ).then((response) => {
+    if (!response.ok) {
+      return response.json().then((error) => {
+        throw new Error(error.status_message || "Something went wrong");
+      });
+    }
+    return response.json();
+  }).then((json) => json.results)
+    .catch((error) => {
+      throw error
+    });
+};
