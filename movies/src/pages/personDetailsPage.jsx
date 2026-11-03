@@ -1,6 +1,6 @@
 import React from "react";
 import { useParams } from 'react-router';
-import { getPersonById } from '../api/tmdb-api'
+import { getMoviesByDirector, getPersonById } from '../api/tmdb-api'
 import { useQuery } from '@tanstack/react-query';
 import Spinner from '../components/spinner';
 import ErrorDisplay from "../components/errorDisplay";
@@ -23,21 +23,30 @@ const PersonDetailsPage = () => {
         queryFn: getPersonById,
     })
 
-    const result = useQuery({
-        queryKey: ['personMovies', { id: id }],
+    const castResult = useQuery({
+        queryKey: ['personCast', { id: id }],
         queryFn: getMoviesByCast,
     });
-    const movies = result.data;
-    const moviesError = result.error;
-    const moviesIsPending = result.isPending;
-    const moviesIsError = result.isError;
+    const castMovies = castResult.data;
+    const castError = castResult.error;
+    const castIsPending = castResult.isPending;
+    const castIsError = castResult.isError;
 
-    if (isPending || moviesIsPending) {
+    const directorResult = useQuery({
+        queryKey: ['personDirector', { id: id }],
+        queryFn: getMoviesByDirector,
+    });
+    const directorMovies = directorResult.data;
+    const directorError = directorResult.error;
+    const directorIsPending = directorResult.isPending;
+    const directorIsError = directorResult.isError;
+
+    if (isPending || castIsPending || directorIsPending) {
         return <Spinner />;
     }
 
-    if (isError || moviesIsError) {
-        return <ErrorDisplay resource={`${name} details`} message={isError ? error.message : moviesError.message} />
+    if (isError || castIsError || directorIsError) {
+        return <ErrorDisplay resource={`${name} details`} message={isError ? error.message : castIsError ? castError.message : directorError.message } />
     }
 
     // width of 185 is a reasonable option: https://developer.themoviedb.org/docs/image-basics
@@ -86,13 +95,27 @@ const PersonDetailsPage = () => {
                 </Paper>
             }
 
-            {movies && movies.length > 0 &&
+            {castMovies && castMovies.length > 0 &&
                 <>
                     <Paper sx={{ padding: 2, margin: 2, backgroundColor: '#f5f5f5' }}>
                         <Typography component="h3" variant="h4">Movies<br /></Typography>
                     <Grid container>
                         <MovieList
-                            movies={movies}
+                            movies={castMovies}
+                            action={(movie) => <AddToFavorites movie={movie} />}
+                        />
+                    </Grid>
+                    </Paper>
+                </>
+            }
+
+            {directorMovies && directorMovies.length > 0 &&
+                <>
+                    <Paper sx={{ padding: 2, margin: 2, backgroundColor: '#f5f5f5' }}>
+                        <Typography component="h3" variant="h4">Movies<br /></Typography>
+                    <Grid container>
+                        <MovieList
+                            movies={directorMovies}
                             action={(movie) => <AddToFavorites movie={movie} />}
                         />
                     </Grid>
