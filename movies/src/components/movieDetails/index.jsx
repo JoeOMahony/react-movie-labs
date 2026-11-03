@@ -158,7 +158,7 @@ const MovieDetails = ({ movie }) => {
         </li>
         {cast.map((cm) => (
           <li key={cm.name}>
-            <Link to={`/cast/${cm.id}/${cm.name}`}>
+            <Link to={`/person/${cm.id}/${cm.name}`}>
               <Chip label={cm.name} 
               avatar={
                   <Avatar

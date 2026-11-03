@@ -24,7 +24,7 @@ const PersonDetailsPage = () => {
 
   return (
         <>
-            
+            <h1>{person.name}</h1>
         </>
   );
 };

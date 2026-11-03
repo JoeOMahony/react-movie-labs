@@ -368,7 +368,7 @@ export const getPersonById = ({ queryKey }) => {
       });
     }
     return response.json();
-  }).then((json) => json.results)
+  }) //.then((json) => json.results) json.results is undefined, it's an object returned
     .catch((error) => {
       throw error
     });
