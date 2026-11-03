@@ -226,7 +226,7 @@ export const getCastByMovie = ({ queryKey }) => {
     });
 };
 
-// Gets the movies for a given cast member ID, used in moviesByCastPage.jsx to show the movies for a cast member clicked in movieDetailsPage
+// Gets the movies for a given cast member ID, used in personDetailsPage.jsx to show the movies for a cast member clicked in movieDetailsPage
 // based on getMovieReviews
 export const getMoviesByCast = ({ queryKey }) => {
   const [, idPart] = queryKey;
@@ -269,7 +269,7 @@ export const getDirectorsByMovie = ({ queryKey }) => {
 };
 
 // Need the return route from getDirectorsByMovie
-// used by directorMoviesPage
+// used by personDetailsPage
 // https://www.themoviedb.org/talk/61d0bb321b722c008beb79c2
 export const getMoviesByDirector = ({ queryKey }) => {
   const [, idPart] = queryKey;
@@ -284,7 +284,7 @@ export const getMoviesByDirector = ({ queryKey }) => {
     }
     return response.json();
   }).then(data => {
-    const directors = data.crew.filter(member => member.job === 'Director');
+    const directors = data.crew.filter(member => member.job === 'Director' && member.media_type === 'movie');
     return directors;
   }).catch((error) => {
       throw error

@@ -101,7 +101,7 @@ const PersonDetailsPage = () => {
             {movies && movies.length > 0 &&
                 <>
                     <Paper sx={{ padding: 2, margin: 2, backgroundColor: '#f5f5f5' }}>
-                        <Typography component="h3" variant="h4">Movies<br /></Typography>
+                        <Typography component="h3" variant="h4">{isDirector ? `Movies directed by ${person.name}` : `Movies ${person.name} appears in`}<br /></Typography>
                     <Grid container>
                         <MovieList
                             movies={movies}
