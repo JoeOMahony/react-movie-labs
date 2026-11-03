@@ -23,12 +23,13 @@ import NowPlayingMoviesPage from "./pages/nowPlayingMoviesPage.jsx";
 import PersonDetailsPage from "./pages/personDetailsPage.jsx";
 
 // will manage the cache in the browser
-// [The above configuration will retain all data in the cache for 1 hour before it becomes invalidated.]
+// 1 hour in ms
+let cacheTime = 60 * 60 * 1000;
 const queryClient = new QueryClient({
   defaultOptions: {
     queries: {
-      staleTime: 360000,
-      refetchInterval: 360000,
+      staleTime: cacheTime,
+      refetchInterval: cacheTime,
       refetchOnWindowFocus: false
     },
   },
