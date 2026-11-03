@@ -161,3 +161,16 @@ const SomeDynamicMoviesPage = (props) => {
 
 export default SomeDynamicMoviesPage; 
 ```
+
+#### (3). Add the route in `main.jsx`
+The route declares the URL parameters read in the page created above. They must match the destructuring from the reading page exactly, *i.e.*, `{ paramName01, paramName02 } = useParams()` and be prefixed with `:`. For example, `/some-page/:paramName01/:paramName02`, `/directors/:id/:name`, and `/cast/:castId/:castName`.
+
+```jsx 
+import SomeDynamicMoviesPage from "./pages/someDynamicMoviesPage.jsx";
+// ...
+    <Routes>
+        { /* ... */}
+        <Route path="/some-dynamic-movies/:id/:name" element={<SomeDynamicMoviesPage />} />
+    </Routes>
+// ...
+```
