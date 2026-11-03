@@ -28,29 +28,23 @@ const PersonDetailsPage = () => {
         queryFn: getMoviesByCast,
     });
     const castMovies = castResult.data;
-    const castError = castResult.error;
-    const castIsPending = castResult.isPending;
-    const castIsError = castResult.isError;
 
     const directorResult = useQuery({
         queryKey: ['personDirector', { id: id }],
         queryFn: getMoviesByDirector,
     });
     const directorMovies = directorResult.data;
-    const directorError = directorResult.error;
-    const directorIsPending = directorResult.isPending;
-    const directorIsError = directorResult.isError;
 
-    if (isPending || castIsPending || directorIsPending) {
+    if (isPending) {
         return <Spinner />;
     }
 
-    if (isError || castIsError || directorIsError) {
-        return <ErrorDisplay resource={`${name} details`} message={isError ? error.message : castIsError ? castError.message : directorError.message } />
+    if (isError) {
+        return <ErrorDisplay resource={`${name} details`} message={error.message} />;
     }
 
     const isDirector = person.known_for_department === 'Directing';
-    const movies = isDirector ? directorMovies : castMovies; 
+    const movies = isDirector ? directorMovies : castMovies;
 
     // width of 185 is a reasonable option: https://developer.themoviedb.org/docs/image-basics
     // https://developer.themoviedb.org/reference/person-details
@@ -65,10 +59,10 @@ const PersonDetailsPage = () => {
                         <Typography component="p" variant="h6">Also known as {person.also_known_as.join(', ')}</Typography>
                     }
                     {person.birthday && person.place_of_birth &&
-                    <Typography component="p" variant="h6">Born {person.birthday} in {person.place_of_birth}</Typography>
+                        <Typography component="p" variant="h6">Born {person.birthday} in {person.place_of_birth}</Typography>
                     }
                     {person.birthday && !(person.place_of_birth) &&
-                    <Typography component="p" variant="h6">Born {person.birthday}</Typography>
+                        <Typography component="p" variant="h6">Born {person.birthday}</Typography>
                     }
                     {person.deathday &&
                         <Typography component="p" variant="h6">Died {person.deathday}</Typography>
@@ -99,17 +93,15 @@ const PersonDetailsPage = () => {
             }
 
             {movies && movies.length > 0 &&
-                <>
-                    <Paper sx={{ padding: 2, margin: 2, backgroundColor: '#f5f5f5' }}>
-                        <Typography component="h3" variant="h4">{isDirector ? `Movies directed by ${person.name}` : `Movies ${person.name} appears in`}<br /></Typography>
+                <Paper sx={{ padding: 2, margin: 2, backgroundColor: '#f5f5f5' }}>
+                    <Typography component="h3" variant="h4">{isDirector ? `Movies directed by ${person.name}` : `Movies ${person.name} appears in`}<br /></Typography>
                     <Grid container>
                         <MovieList
                             movies={movies}
                             action={(movie) => <AddToFavorites movie={movie} />}
                         />
                     </Grid>
-                    </Paper>
-                </>
+                </Paper>
             }
         </>
     );
