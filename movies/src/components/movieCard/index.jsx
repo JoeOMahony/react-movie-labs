@@ -7,6 +7,7 @@ import CardHeader from "@mui/material/CardHeader";
 import Button from "@mui/material/Button";
 import Typography from "@mui/material/Typography";
 import FavoriteIcon from "@mui/icons-material/Favorite";
+import WatchListIcon from '@mui/icons-material/PlaylistAdd';
 import CalendarIcon from "@mui/icons-material/CalendarTodayTwoTone";
 import StarRateIcon from "@mui/icons-material/StarRate";
 import Grid from "@mui/material/Grid";
@@ -14,16 +15,22 @@ import img from '../../images/film-poster-placeholder.png'
 import { Link } from "react-router";
 import { Avatar } from "@mui/material";
 import { useContext } from "react";
-import { MoviesContext } from "../../contexts/moviesContext";
-import PlaylistAddIcon from "@mui/icons-material/PlaylistAdd";
+import { MoviesContext } from "../../contexts/moviesContext"; 
 
 export default function MovieCard({ movie, action }) {
   const { favorites, addToFavorites } = useContext(MoviesContext);
+  const { myWatchList, setMyWatchList } = useContext(MoviesContext);
 
   if (favorites.find((id) => id === movie.id)) {
     movie.favorite = true;
   } else {
     movie.favorite = false
+  }
+
+  if (myWatchList.find((id) => id === movie.id)) {
+    movie.myWatchList = true;
+  } else {
+    movie.myWatchList = false
   }
 
   const handleAddToFavorite = (e) => {
@@ -35,6 +42,20 @@ export default function MovieCard({ movie, action }) {
     <Card>
       <CardHeader
         avatar={
+          movie.favorite && movie.myWatchList ? 
+          <Avatar sx={{
+              backgroundColor: "primary.main",
+              '&:hover': {
+                backgroundColor: 'primary.main',
+                color: 'white',
+                transform: 'scale(1.05)',
+                transition: 'transform 1s ease-in-out',
+              }
+            }}>
+              <FavoriteIcon />
+              <WatchListIcon />
+            </Avatar>
+          : 
           movie.favorite ? (
             <Avatar sx={{
               backgroundColor: "primary.main",
@@ -47,7 +68,19 @@ export default function MovieCard({ movie, action }) {
             }}>
               <FavoriteIcon />
             </Avatar>
-          ) : null
+          ) : movie.myWatchList ? 
+          <Avatar sx={{
+              backgroundColor: "primary.main",
+              '&:hover': {
+                backgroundColor: 'primary.main',
+                color: 'white',
+                transform: 'scale(1.05)',
+                transition: 'transform 1s ease-in-out',
+              }
+            }}>
+              <WatchListIcon />
+            </Avatar>
+          : null
         }
         title={
           <Typography variant="h5" component="p" sx={{ typography: 'movieTitleFont' }}>
