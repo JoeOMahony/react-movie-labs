@@ -19,8 +19,10 @@ import directorIcon from "../../images/director-board.png";
 import personIcon from "../../images/person-icon.png";
 import companyIcon from "../../images/company-icon.png";
 import { getSimilarMovies } from "../../api/tmdb-api";
+import { getTrailerKeyByMovie } from "../../api/tmdb-api";
 
-let tmdbTinyImageUrl = 'https://image.tmdb.org/t/p/w92/';
+const tmdbTinyImageUrl = 'https://image.tmdb.org/t/p/w92/';
+const youtubeEmbedUrl = 'https://www.youtube.com/embed/'; // append key from getTrailerKeyByMovie 
 
 const root = {
   display: "flex",
@@ -54,6 +56,12 @@ const MovieDetails = ({ movie }) => {
     queryFn: getSimilarMovies,
   });
 
+  const { data: trailerKey } = useQuery({
+    queryKey: ["trailerKey", { id: movie.id }],
+    queryFn: getTrailerKeyByMovie,
+  });
+
+
   return (
     <>
       <Typography variant="h5" component="h3" sx={{ mb: 2, mt: 1, fontWeight: 'bold' }}>
@@ -79,27 +87,27 @@ const MovieDetails = ({ movie }) => {
           </li>
         ))}
       </Paper>
-  
+
       {/* Movie App Lab 02 Exercise 01: Production countries arr */}
-      { movie.production_countries?.length > 0 && (
-      <Paper
-        component="ul"
-        sx={{ ...root }}
-      >
-        <li>
-          <Chip 
-          label={ movie.production_countries.length == 1 ? "Production Country" : "Production Countries" }
-          sx={{ ...chip }} color="primary" />
-        </li>
-        {movie.production_countries.map((pCountry) => (
-          <li key={pCountry.name}>
-            <Link to={`/countries/${pCountry.iso_3166_1}/${pCountry.name}`}>
-              { /* https://flagpedia.net/download/api */}
-              <Chip label={pCountry.name} icon={<img src={`https://flagcdn.com/24x18/${pCountry.iso_3166_1.toLowerCase()}.png`} alt={pCountry.name} height="18" width="24" />} sx={{ ...chip }} />
-            </Link>
+      {movie.production_countries?.length > 0 && (
+        <Paper
+          component="ul"
+          sx={{ ...root }}
+        >
+          <li>
+            <Chip
+              label={movie.production_countries.length == 1 ? "Production Country" : "Production Countries"}
+              sx={{ ...chip }} color="primary" />
           </li>
-        ))}
-      </Paper>
+          {movie.production_countries.map((pCountry) => (
+            <li key={pCountry.name}>
+              <Link to={`/countries/${pCountry.iso_3166_1}/${pCountry.name}`}>
+                { /* https://flagpedia.net/download/api */}
+                <Chip label={pCountry.name} icon={<img src={`https://flagcdn.com/24x18/${pCountry.iso_3166_1.toLowerCase()}.png`} alt={pCountry.name} height="18" width="24" />} sx={{ ...chip }} />
+              </Link>
+            </li>
+          ))}
+        </Paper>
       )}
 
       {movie.production_companies?.length > 0 && (
@@ -108,92 +116,106 @@ const MovieDetails = ({ movie }) => {
           sx={{ ...root }}
         >
           <li>
-          <Chip 
-          label={ movie.production_companies.length == 1 ? "Production Company" : "Production Companies" }
-          sx={{ ...chip }} color="primary" />
-        </li>
-        {movie.production_companies.map((pCompany) => (
-          <li key={pCompany.name}>
-            <Link to={`/companies/${pCompany.id}/${pCompany.name}`}>
-              <Chip label={pCompany.name} sx={{ ...chip }} icon={<img src={pCompany.logo_path !== null ? tmdbTinyImageUrl + pCompany.logo_path : companyIcon} alt={pCompany.name} width="32" height="16" />} />
-            </Link>
+            <Chip
+              label={movie.production_companies.length == 1 ? "Production Company" : "Production Companies"}
+              sx={{ ...chip }} color="primary" />
           </li>
-        ))}
-      </Paper>
+          {movie.production_companies.map((pCompany) => (
+            <li key={pCompany.name}>
+              <Link to={`/companies/${pCompany.id}/${pCompany.name}`}>
+                <Chip label={pCompany.name} sx={{ ...chip }} icon={<img src={pCompany.logo_path !== null ? tmdbTinyImageUrl + pCompany.logo_path : companyIcon} alt={pCompany.name} width="32" height="16" />} />
+              </Link>
+            </li>
+          ))}
+        </Paper>
       )}
 
-      { directors?.length > 0 && (
-      <Paper
-        component="ul"
-        sx={{ ...root }}
-      >
-        <li>
-          <Chip 
-          label={ directors.length == 1 ? "Director" : "Directors"}
-          sx={{ ...chip }} color="primary" />
-        </li>
-        {directors.map((director) => (
-          <li key={director.id}>
-            <Link to={`/person/${director.id}/${director.name}`}>
-              <Chip label={director.name} sx={{ ...chip }} 
-              avatar={
-                  <Avatar
-                    src={director.profile_path !== null ? tmdbTinyImageUrl + director.profile_path : directorIcon}
-                    alt={director.name}
-                  />
-                }/>
-            </Link>
+      {directors?.length > 0 && (
+        <Paper
+          component="ul"
+          sx={{ ...root }}
+        >
+          <li>
+            <Chip
+              label={directors.length == 1 ? "Director" : "Directors"}
+              sx={{ ...chip }} color="primary" />
           </li>
-        ))}
-      </Paper>
+          {directors.map((director) => (
+            <li key={director.id}>
+              <Link to={`/person/${director.id}/${director.name}`}>
+                <Chip label={director.name} sx={{ ...chip }}
+                  avatar={
+                    <Avatar
+                      src={director.profile_path !== null ? tmdbTinyImageUrl + director.profile_path : directorIcon}
+                      alt={director.name}
+                    />
+                  } />
+              </Link>
+            </li>
+          ))}
+        </Paper>
       )}
 
-      { cast?.length > 0 && (
-      <Paper
-        component="ul"
-        sx={{ ...root }}
-      >
-        <li>
-          <Chip label="Cast Members" sx={{ ...chip }} color="primary" />
-        </li>
-        {cast.map((cm) => (
-          <li key={cm.name}>
-            <Link to={`/person/${cm.id}/${cm.name}`}>
-              <Chip label={cm.name} 
-              avatar={
-                  <Avatar
-                    src={cm.profile_path !== null ? tmdbTinyImageUrl + cm.profile_path : personIcon}
-                    alt={cm.name}
-                  />
-                }/>
-            </Link>
+      {cast?.length > 0 && (
+        <Paper
+          component="ul"
+          sx={{ ...root }}
+        >
+          <li>
+            <Chip label="Cast Members" sx={{ ...chip }} color="primary" />
           </li>
-        ))}
-      </Paper>
+          {cast.map((cm) => (
+            <li key={cm.name}>
+              <Link to={`/person/${cm.id}/${cm.name}`}>
+                <Chip label={cm.name}
+                  avatar={
+                    <Avatar
+                      src={cm.profile_path !== null ? tmdbTinyImageUrl + cm.profile_path : personIcon}
+                      alt={cm.name}
+                    />
+                  } />
+              </Link>
+            </li>
+          ))}
+        </Paper>
       )}
 
       {similarMovies.length > 0 && (
-      <Paper
-        component="ul"
-        sx={{ ...root }}
-      >
-        <li>
-          <Chip label="Similar Movies" sx={{ ...chip }} color="primary" />
-        </li>
-        {similarMovies.map((sm) => (
-          <li key={sm.id}>
-            <Link to={`/movies/${sm.id}`}>
-              <Chip label={sm.title} sx={{ ...chip }} 
-              avatar={
-                  <Avatar
-                    src={sm.poster_path !== null ? tmdbTinyImageUrl + sm.poster_path : popcornIcon}
-                    alt={sm.title}
-                  />
-                }/>
-            </Link>
+        <Paper
+          component="ul"
+          sx={{ ...root }}
+        >
+          <li>
+            <Chip label="Similar Movies" sx={{ ...chip }} color="primary" />
           </li>
-        ))}
-      </Paper>
+          {similarMovies.map((sm) => (
+            <li key={sm.id}>
+              <Link to={`/movies/${sm.id}`}>
+                <Chip label={sm.title} sx={{ ...chip }}
+                  avatar={
+                    <Avatar
+                      src={sm.poster_path !== null ? tmdbTinyImageUrl + sm.poster_path : popcornIcon}
+                      alt={sm.title}
+                    />
+                  } />
+              </Link>
+            </li>
+          ))}
+        </Paper>
+      )}
+
+      {trailerKey && (
+        <Paper sx={{ ...root }}>
+          <iframe
+            width="640"
+            height="480"
+            src={`${youtubeEmbedUrl}${trailerKey}`}
+            title="YouTube video player"
+            allow="accelerometer; autoplay; clipboard-write; encrypted-media;ture; web-share"
+            referrerPolicy="strict-origin-when-cross-origin"
+            allowFullScreen
+          />
+        </Paper>
       )}
 
       <Paper component="ul" sx={{ ...root }}>
