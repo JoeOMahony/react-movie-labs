@@ -72,6 +72,24 @@ const MovieDetails = ({ movie }) => {
         {movie.overview}
       </Typography>
 
+      <Paper component="ul" sx={{ ...root }}>
+        <Chip icon={<AccessTimeIcon />}
+          label={`${movie.runtime} min.`}
+          sx={{ "& .MuiChip-icon": { color: "secondary.main" } }}
+        />
+        <Chip
+          icon={<MonetizationIcon />}
+          label={`${movie.revenue.toLocaleString()}`}
+          sx={{ "& .MuiChip-icon": { color: "money.main" } }}
+        />
+        <Chip
+          icon={<StarRate />}
+          label={`${movie.vote_average} (${movie.vote_count})`}
+          sx={{ "& .MuiChip-icon": { color: "tertiary.main" } }}
+        />
+        <Chip label={`Released: ${movie.release_date}`} />
+      </Paper>
+
       <Paper
         component="ul"
         sx={{ ...root }}
@@ -87,6 +105,26 @@ const MovieDetails = ({ movie }) => {
           </li>
         ))}
       </Paper>
+
+      {movie.production_companies?.length > 0 && (
+        <Paper
+          component="ul"
+          sx={{ ...root }}
+        >
+          <li>
+            <Chip
+              label={movie.production_companies.length == 1 ? "Production Company" : "Production Companies"}
+              sx={{ ...chip }} color="primary" />
+          </li>
+          {movie.production_companies.map((pCompany) => (
+            <li key={pCompany.name}>
+              <Link to={`/companies/${pCompany.id}/${pCompany.name}`}>
+                <Chip label={pCompany.name} sx={{ ...chip }} icon={<img src={pCompany.logo_path !== null ? tmdbTinyImageUrl + pCompany.logo_path : companyIcon} alt={pCompany.name} width="32" height="16" />} />
+              </Link>
+            </li>
+          ))}
+        </Paper>
+      )}
 
       {/* Movie App Lab 02 Exercise 01: Production countries arr */}
       {movie.production_countries?.length > 0 && (
@@ -104,26 +142,6 @@ const MovieDetails = ({ movie }) => {
               <Link to={`/countries/${pCountry.iso_3166_1}/${pCountry.name}`}>
                 { /* https://flagpedia.net/download/api */}
                 <Chip label={pCountry.name} icon={<img src={`https://flagcdn.com/24x18/${pCountry.iso_3166_1.toLowerCase()}.png`} alt={pCountry.name} height="18" width="24" />} sx={{ ...chip }} />
-              </Link>
-            </li>
-          ))}
-        </Paper>
-      )}
-
-      {movie.production_companies?.length > 0 && (
-        <Paper
-          component="ul"
-          sx={{ ...root }}
-        >
-          <li>
-            <Chip
-              label={movie.production_companies.length == 1 ? "Production Company" : "Production Companies"}
-              sx={{ ...chip }} color="primary" />
-          </li>
-          {movie.production_companies.map((pCompany) => (
-            <li key={pCompany.name}>
-              <Link to={`/companies/${pCompany.id}/${pCompany.name}`}>
-                <Chip label={pCompany.name} sx={{ ...chip }} icon={<img src={pCompany.logo_path !== null ? tmdbTinyImageUrl + pCompany.logo_path : companyIcon} alt={pCompany.name} width="32" height="16" />} />
               </Link>
             </li>
           ))}
@@ -205,10 +223,10 @@ const MovieDetails = ({ movie }) => {
       )}
 
       {trailerKey && (
-        <Paper sx={{ ...root }}>
+        <Paper sx={{ ...root, backgroundColor: "golden.main" }}>
           <iframe
-            width="640"
-            height="480"
+            width="1080"
+            height="720"
             src={`${youtubeEmbedUrl}${trailerKey}`}
             title="YouTube video player"
             allow="accelerometer; autoplay; clipboard-write; encrypted-media;ture; web-share"
@@ -218,23 +236,6 @@ const MovieDetails = ({ movie }) => {
         </Paper>
       )}
 
-      <Paper component="ul" sx={{ ...root }}>
-        <Chip icon={<AccessTimeIcon />}
-          label={`${movie.runtime} min.`}
-          sx={{ "& .MuiChip-icon": { color: "secondary.main" } }}
-        />
-        <Chip
-          icon={<MonetizationIcon />}
-          label={`${movie.revenue.toLocaleString()}`}
-          sx={{ "& .MuiChip-icon": { color: "money.main" } }}
-        />
-        <Chip
-          icon={<StarRate />}
-          label={`${movie.vote_average} (${movie.vote_count})`}
-          sx={{ "& .MuiChip-icon": { color: "golden.main" } }}
-        />
-        <Chip label={`Released: ${movie.release_date}`} />
-      </Paper>
       <Fab
         color="secondary"
         variant="extended"
