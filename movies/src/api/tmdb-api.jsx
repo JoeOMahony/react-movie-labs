@@ -264,8 +264,8 @@ export const getDirectorsByMovie = ({ queryKey }) => {
     const directors = data.crew.filter(member => member.job === 'Director');
     return directors;
   }).catch((error) => {
-      throw error
-    });
+    throw error
+  });
 };
 
 // Need the return route from getDirectorsByMovie
@@ -276,7 +276,7 @@ export const getMoviesByDirector = ({ queryKey }) => {
   const { id } = idPart;
   return fetch(
     `https://api.themoviedb.org/3/person/${id}/combined_credits?api_key=${import.meta.env.VITE_TMDB_KEY}&language=en-US&page=1`
- ).then((response) => {
+  ).then((response) => {
     if (!response.ok) {
       return response.json().then((error) => {
         throw new Error(error.status_message || "Something went wrong");
@@ -287,8 +287,8 @@ export const getMoviesByDirector = ({ queryKey }) => {
     const directors = data.crew.filter(member => member.job === 'Director' && member.media_type === 'movie');
     return directors;
   }).catch((error) => {
-      throw error
-    });
+    throw error
+  });
 };
 
 // Gets the first 5 similar movies for a given movie ID, used by movieDetails component
@@ -373,3 +373,28 @@ export const getPersonById = ({ queryKey }) => {
       throw error
     });
 };
+
+// based on getPersonById
+// https://developer.themoviedb.org/reference/movie-videos
+export const getTrailerKeyByMovie = ({ queryKey }) => {
+  const [, idPart] = queryKey;
+  const { id } = idPart;
+  return fetch(
+    `https://api.themoviedb.org/3/movie/${id}/videos?api_key=${import.meta.env.VITE_TMDB_KEY}&language=en-US`
+  ).then((response) => {
+    if (!response.ok) {
+      return response.json().then((error) => {
+        throw new Error(error.status_message || "Something went wrong");
+      });
+    }
+    return response.json();
+  }).then((json) => {
+    json = json.results;
+    let trailer = json.find(video => video.type === 'Trailer' && video.site === 'YouTube'); // && video.iso_639_1 === 'en'
+    return trailer ? trailer.key : null;
+  })
+    .catch((error) => {
+      throw error
+    });
+};
+
