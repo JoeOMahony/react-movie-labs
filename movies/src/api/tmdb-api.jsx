@@ -391,10 +391,12 @@ export const getTrailerKeyByMovie = ({ queryKey }) => {
   }).then((json) => {
     json = json.results;
     let trailer = json.find(video => video.type === 'Trailer' && video.site === 'YouTube'); // && video.iso_639_1 === 'en'
+    if (!trailer) {
+      trailer = json.find(video.site === 'YouTube'); // something to show is better than nothing
+    }
     return trailer ? trailer.key : null;
   })
     .catch((error) => {
       throw error
     });
 };
-
