@@ -12,7 +12,8 @@ import { getMoviesByCast } from "../api/tmdb-api";
 import Header from "../components/headerMovieList";
 import MovieList from "../components/movieList";
 import Grid from "@mui/material/Grid";
-import AddToFavorites from "../components/cardIcons/addToFavorites";
+import AddToFavoritesIcon from "../components/cardIcons/addToFavorites";
+import AddToWatchListIcon from "../components/cardIcons/addToWatchList";
 
 // based on movieDetailsPage
 const PersonDetailsPage = () => {
@@ -98,8 +99,11 @@ const PersonDetailsPage = () => {
                     <Grid container>
                         <MovieList
                             movies={movies}
-                            action={(movie) => <AddToFavorites movie={movie} />}
-                        />
+                            action={(movie) => (<>
+                                <AddToFavoritesIcon movie={movie} />
+                                <AddToWatchListIcon movie={movie} />
+                            </>
+                            )}/>
                     </Grid>
                 </Paper>
             }
