@@ -5,6 +5,8 @@ import AddToFavorites from '../components/cardIcons/addToFavorites'
 import { useQuery } from '@tanstack/react-query';
 import Spinner from '../components/spinner';
 import ErrorDisplay from "../components/errorDisplay";
+import AddToWatchList from "../components/cardIcons/addToWatchList";
+import AddToWatchListIcon from '../components/cardIcons/addToWatchList';
 
 const TopRatedMoviesPage = (props) => {
   // const { id, name } = useParams();
@@ -33,7 +35,13 @@ const TopRatedMoviesPage = (props) => {
             title={`Top Rated Movies`}
             movies={movies}
             action={(movie) => {
-                return <AddToFavorites movie={movie} />
+                return (
+                    <>
+                    <AddToFavorites movie={movie} />
+                    <AddToWatchListIcon movie={movie} />
+                    </>
+                )
+                
             }}
         />
     );

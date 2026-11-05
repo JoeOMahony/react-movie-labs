@@ -1,14 +1,15 @@
 import React from "react";
 import MovieListTemplate from '../components/templateMovieListPage'
 import { getNowPlayingMovies } from "../api/tmdb-api"
-import AddToFavorites from '../components/cardIcons/addToFavorites'
+import AddToFavoritesIcon from '../components/cardIcons/addToFavorites'
 import { useQuery } from '@tanstack/react-query';
 import Spinner from '../components/spinner';
 import ErrorDisplay from "../components/errorDisplay";
+import AddToWatchListIcon from "../components/cardIcons/addToWatchList";
 
 // Based on topRatedMoviesPage
 const NowPlayingMoviesPage = (props) => {
-  // const { id, name } = useParams();
+    // const { id, name } = useParams();
 
     const result = useQuery({
         // queryKey: ['topRatedMovies', { id: id }],
@@ -26,7 +27,7 @@ const NowPlayingMoviesPage = (props) => {
     }
 
     if (isError) {
-        return <ErrorDisplay resource={`now playing movies`} message={error.message} /> 
+        return <ErrorDisplay resource={`now playing movies`} message={error.message} />
     }
 
     return (
@@ -34,8 +35,12 @@ const NowPlayingMoviesPage = (props) => {
             title={`Now Playing`}
             movies={movies}
             action={(movie) => {
-                return <AddToFavorites movie={movie} />
-            }}
+                return (
+                    <>
+                        <AddToFavoritesIcon movie={movie} />
+                        <AddToWatchListIcon movie={movie} />
+                    </>
+                )}}
         />
     );
 };

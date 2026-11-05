@@ -22,7 +22,7 @@ const HomePage = (props) => {
   }
 
   if (isError) {
-    return <ErrorDisplay resource={`movies`} message={error.message} /> 
+    return <ErrorDisplay resource={`movies`} message={error.message} />
   }
 
   const movies = data.results;
@@ -32,16 +32,21 @@ const HomePage = (props) => {
   // localStorage.setItem('favorites', JSON.stringify(favorites))
   // const addToFavorites = (movieId) => true
 
-     return (
-      <PageTemplate
-        title="Discover Movies"
-        movies={movies}
-        // Render prop for the "favourite" icon
-        // The render prop’s function returns the icon to display in movie cards on the home page.
-        action={(movie) => {
-          return <AddToFavoritesIcon movie={movie} />
-        }}
-      />
+  return (
+    <PageTemplate
+      title="Discover Movies"
+      movies={movies}
+      // Render prop for the "favourite" icon
+      // The render prop’s function returns the icon to display in movie cards on the home page.
+      action={(movie) => {
+        return (
+          <>
+            <AddToFavoritesIcon movie={movie} />
+            <AddToWatchListIcon movie={movie} />
+          </>
+        )
+      }}
+    />
   );
 };
 

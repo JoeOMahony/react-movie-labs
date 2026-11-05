@@ -1,10 +1,11 @@
 import React from "react";
 import MovieListTemplate from '../components/templateMovieListPage'
 import { getTrendingMovies } from "../api/tmdb-api"
-import AddToWatchList from '../components/cardIcons/addToWatchList'
+import AddToWatchListIcon from '../components/cardIcons/addToWatchList'
 import { useQuery } from '@tanstack/react-query';
 import Spinner from '../components/spinner';
 import ErrorDisplay from "../components/errorDisplay";
+import AddToFavoritesIcon from '../components/cardIcons/addToFavorites'
 
 // Based on upcomingMoviesPage
 const TrendingMoviesPage = (props) => {
@@ -30,7 +31,12 @@ const TrendingMoviesPage = (props) => {
             title={`Trending Movies`}
             movies={movies}
             action={(movie) => {
-                return <AddToWatchList movie={movie} />
+                return (
+                    <>
+                        <AddToFavoritesIcon movie={movie} />
+                        <AddToWatchListIcon movie={movie} />
+                    </>
+                )
             }}
         />
     );

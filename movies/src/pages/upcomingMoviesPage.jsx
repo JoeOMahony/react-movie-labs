@@ -5,6 +5,7 @@ import AddToWatchList from '../components/cardIcons/addToWatchList'
 import { useQuery } from '@tanstack/react-query';
 import Spinner from '../components/spinner';
 import ErrorDisplay from "../components/errorDisplay";
+import AddToFavoritesIcon from '../components/cardIcons/addToFavorites'
 
 // Based on topRatedMoviesPage
 const UpcomingMoviesPage = (props) => {
@@ -34,7 +35,12 @@ const UpcomingMoviesPage = (props) => {
             title={`Upcoming Movies`}
             movies={movies}
             action={(movie) => {
-                return <AddToWatchList movie={movie} />
+                return (
+                    <>
+                        <AddToFavoritesIcon movie={movie} />
+                        <AddToWatchList movie={movie} />
+                    </>
+                )
             }}
         />
     );
