@@ -1,4 +1,3 @@
-import React from "react";
 import Card from "@mui/material/Card";
 import CardActions from "@mui/material/CardActions";
 import CardContent from "@mui/material/CardContent";
@@ -18,31 +17,28 @@ import { useContext } from "react";
 import { MoviesContext } from "../../contexts/moviesContext"; 
 
 export default function MovieCard({ movie, action }) {
-  const { favorites, addToFavorites } = useContext(MoviesContext);
-  const { myWatchList, setMyWatchList } = useContext(MoviesContext);
+  const { favorites } = useContext(MoviesContext);
+  const { myWatchList } = useContext(MoviesContext);
 
-  if (favorites.find((id) => id === movie.id)) {
-    movie.favorite = true;
-  } else {
-    movie.favorite = false
-  }
+  // if (favorites.find((id) => id === movie.id)) {
+  //   movie.favorite = true;
+  // } else {
+  //   movie.favorite = false
+  // }
+  const isFavorite = favorites.includes(movie.id);
 
-  if (myWatchList.find((id) => id === movie.id)) {
-    movie.myWatchList = true;
-  } else {
-    movie.myWatchList = false
-  }
-
-  const handleAddToFavorite = (e) => {
-    e.preventDefault();
-    addToFavorites(movie);
-  };
+  // if (myWatchList.find((id) => id === movie.id)) {
+  //   movie.myWatchList = true;
+  // } else {
+  //   movie.myWatchList = false
+  // }
+  const isInWatchList = myWatchList.includes(movie.id);
 
   return (
     <Card>
       <CardHeader
         avatar={
-          movie.favorite && movie.myWatchList ? 
+          isFavorite && isInWatchList ? 
           <Avatar sx={{
               backgroundColor: "primary.main",
               width: 64,
@@ -58,7 +54,7 @@ export default function MovieCard({ movie, action }) {
               <WatchListIcon />
             </Avatar>
           : 
-          movie.favorite ? (
+          isFavorite ? (
             <Avatar sx={{
               backgroundColor: "primary.main",
               '&:hover': {
@@ -70,7 +66,7 @@ export default function MovieCard({ movie, action }) {
             }}>
               <FavoriteIcon />
             </Avatar>
-          ) : movie.myWatchList ? 
+          ) : isInWatchList ? 
           <Avatar sx={{
               backgroundColor: "primary.main",
               '&:hover': {
