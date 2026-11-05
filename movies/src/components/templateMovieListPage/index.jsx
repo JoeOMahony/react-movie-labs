@@ -9,7 +9,7 @@ import Grid from "@mui/material/Grid";
 function MovieListPageTemplate({ movies, title, action }) {
   const [nameFilter, setNameFilter] = useState("");
   const [genreFilter, setGenreFilter] = useState("0");
-  const [ratingFilter, setRatingFilter] = useState("0");
+  const [ratingFilter, setRatingFilter] = useState("");
 
   const genreId = Number(genreFilter);
 
