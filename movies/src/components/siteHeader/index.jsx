@@ -40,12 +40,12 @@ const SiteHeader = () => {
 
     const menuOptions = [
         { label: "Home", path: "/" },
-        { label: "Favorites", path: "/movies/favorites" },
+        { label: "Trending", path: "/trending" },
+        { label: "Now Playing", path: "/now-playing" },
         { label: "Upcoming", path: "/upcoming" },
         { label: "Top Rated", path: "/top-rated" },
         { label: "Watch List", path: "/watchlist" },
-        { label: "Trending", path: "/trending" },
-        { label: "Now Playing", path: "/now-playing" },
+        { label: "Favorites", path: "/movies/favorites" },
     ];
 
     const handleMenuSelect = (pageURL) => {
