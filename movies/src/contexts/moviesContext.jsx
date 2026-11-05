@@ -1,5 +1,6 @@
 import React, { useState } from "react";
 
+// eslint-disable-next-line react-refresh/only-export-components
 export const MoviesContext = React.createContext(null);
 
 const MoviesContextProvider = (props) => {
@@ -14,7 +15,7 @@ const MoviesContextProvider = (props) => {
   const [myWatchList, setMyWatchList] = useState([]);
 
   const addToFavorites = (movie) => {
-    let newFavorites = [];
+    let newFavorites;
     if (!favorites.includes(movie.id)) {
       newFavorites = [...favorites, movie.id];
     }
@@ -33,7 +34,7 @@ const MoviesContextProvider = (props) => {
   };
 
   const addToWatchList = (movie) => {
-    let newWatchList = [];
+    let newWatchList;
     if (!myWatchList.includes(movie.id)) {
       newWatchList = [...myWatchList, movie.id];
     }
