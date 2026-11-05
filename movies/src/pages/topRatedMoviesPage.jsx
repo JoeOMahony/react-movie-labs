@@ -1,14 +1,12 @@
-import React from "react";
 import MovieListTemplate from '../components/templateMovieListPage'
 import { getTopRatedMovies } from "../api/tmdb-api"
 import AddToFavorites from '../components/cardIcons/addToFavorites'
 import { useQuery } from '@tanstack/react-query';
 import Spinner from '../components/spinner';
 import ErrorDisplay from "../components/errorDisplay";
-import AddToWatchList from "../components/cardIcons/addToWatchList";
 import AddToWatchListIcon from '../components/cardIcons/addToWatchList';
 
-const TopRatedMoviesPage = (props) => {
+const TopRatedMoviesPage = () => {
   // const { id, name } = useParams();
 
     const result = useQuery({

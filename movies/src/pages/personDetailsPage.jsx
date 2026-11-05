@@ -1,4 +1,3 @@
-import React from "react";
 import { useParams } from 'react-router';
 import { getMoviesByDirector, getPersonById } from '../api/tmdb-api'
 import { useQuery } from '@tanstack/react-query';

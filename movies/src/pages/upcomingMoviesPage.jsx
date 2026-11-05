@@ -1,4 +1,3 @@
-import React from "react";
 import MovieListTemplate from '../components/templateMovieListPage'
 import { getUpcomingMovies } from "../api/tmdb-api"
 import AddToWatchList from '../components/cardIcons/addToWatchList'
@@ -8,7 +7,7 @@ import ErrorDisplay from "../components/errorDisplay";
 import AddToFavoritesIcon from '../components/cardIcons/addToFavorites'
 
 // Based on topRatedMoviesPage
-const UpcomingMoviesPage = (props) => {
+const UpcomingMoviesPage = () => {
   // const { id, name } = useParams();
 
     const result = useQuery({

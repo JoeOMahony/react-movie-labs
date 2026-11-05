@@ -1,4 +1,3 @@
-import React from "react";
 import MovieListTemplate from '../components/templateMovieListPage'
 import AddToFavorites from '../components/cardIcons/addToFavorites'
 import { getMoviesByCountry } from "../api/tmdb-api"
@@ -8,7 +7,7 @@ import Spinner from '../components/spinner'
 import ErrorDisplay from "../components/errorDisplay"
 
 // Based on favoriteMoviesPage.jsx
-const CountryMoviesPage = (props) => {
+const CountryMoviesPage = () => {
     const { id, name } = useParams();
 
     const result = useQuery({

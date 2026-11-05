@@ -1,4 +1,3 @@
-import React from "react";
 import MovieListTemplate from '../components/templateMovieListPage'
 import AddToFavorites from '../components/cardIcons/addToFavorites'
 import { getMoviesByGenre } from "../api/tmdb-api"
@@ -8,7 +7,7 @@ import Spinner from '../components/spinner'
 import ErrorDisplay from "../components/errorDisplay";
 
 // Based on favoriteMoviesPage.jsx
-const GenreMoviesPage = (props) => {
+const GenreMoviesPage = () => {
     const { id, name } = useParams();
 
     const result = useQuery({

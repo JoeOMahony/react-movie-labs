@@ -1,4 +1,3 @@
-import React from "react";
 import MovieListTemplate from '../components/templateMovieListPage'
 import { getTrendingMovies } from "../api/tmdb-api"
 import AddToWatchListIcon from '../components/cardIcons/addToWatchList'
@@ -8,7 +7,7 @@ import ErrorDisplay from "../components/errorDisplay";
 import AddToFavoritesIcon from '../components/cardIcons/addToFavorites'
 
 // Based on upcomingMoviesPage
-const TrendingMoviesPage = (props) => {
+const TrendingMoviesPage = () => {
     const result = useQuery({
         queryKey: ['trendingMovies'], // no need to pass anything
         queryFn: getTrendingMovies,

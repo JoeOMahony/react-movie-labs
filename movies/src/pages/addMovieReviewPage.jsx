@@ -6,7 +6,7 @@ import { getMovie } from "../api/tmdb-api";
 import Spinner from "../components/spinner";
 import ErrorDisplay from "../components/errorDisplay"
 
-const WriteReviewPage = (props) => {
+const WriteReviewPage = () => {
   const location = useLocation();
   const movieId = location.state.movieId;
 
