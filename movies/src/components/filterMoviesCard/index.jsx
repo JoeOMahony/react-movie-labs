@@ -15,6 +15,7 @@ import Spinner from '../spinner';
 import ErrorDisplay from "../errorDisplay";
 import InputAdornment from '@mui/material/InputAdornment';
 import StarIcon from '@mui/icons-material/Star';
+import CalendarMonthIcon from '@mui/icons-material/CalendarMonth';
 
 const formControl =
 {
@@ -57,6 +58,10 @@ export default function FilterMoviesCard(props) {
   const handleRatingChange = (e) => {
     handleChange(e, "rating", e.target.value);
   };
+
+  const handleYearChange = (e) => {
+    handleChange(e, "year", e.target.value);
+  }
 
   return (
     <Card
@@ -117,6 +122,28 @@ export default function FilterMoviesCard(props) {
             }
           }}
           error={props.ratingFilter < 0 || props.ratingFilter > 10}
+        />
+        { /* https://mui.com/material-ui/material-icons/?query=calendar&selected=CalendarMonth */ }
+        <TextField
+          sx={{ ...formControl }}
+          id="year-filter"
+          label="Release year"
+          type="number"
+          variant="filled"
+          value={props.yearFilter}
+          onChange={handleYearChange}
+          slotProps={{
+            htmlInput: { min: 2000, max: 2040, step: 1 }, // decent coverage
+            input: {
+              startAdornment: (
+                <InputAdornment position="start">
+                  <CalendarMonthIcon />
+                </InputAdornment>
+              )
+            }
+          }}
+          // First silent film in 1888, future films also listed by TMDB
+          error={props.yearFilter !== "" && (props.yearFilter < 1888 || props.yearFilter > 2040)} // Stop it erroring on empty string default
         />
       </CardContent>
       <CardMedia
