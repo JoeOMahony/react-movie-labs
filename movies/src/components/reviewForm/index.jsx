@@ -97,7 +97,7 @@ const ReviewForm = ({ movie }) => {
     setRating(event.target.value);
   };
 
-  const handleSnackClose = (event) => {
+  const handleSnackClose = () => {
     setOpen(false);
     navigate("/movies/favorites");
   };
@@ -199,7 +199,7 @@ const ReviewForm = ({ movie }) => {
         <Controller
           control={control}
           name="rating"
-          render={({ field: { onChange, value } }) => (
+          render={() => (
             <TextField
               id="select-rating"
               select

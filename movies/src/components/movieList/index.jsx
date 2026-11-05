@@ -1,4 +1,3 @@
-import React from "react";
 import MovieCard from "../movieCard/";
 import Grid from "@mui/material/Grid";
 
