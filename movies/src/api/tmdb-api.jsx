@@ -316,7 +316,7 @@ export const getSimilarMovies = ({ queryKey }) => {
 // Static Page 02 for assignment
 // Get trending movies for the week
 // Used by trendingMoviesPage.jsx
-export const getTrendingMovies = ({ queryKey }) => {
+export const getTrendingMovies = () => {
   return fetch(
     `https://api.themoviedb.org/3/trending/movie/week?api_key=${import.meta.env.VITE_TMDB_KEY}&language=en-US&page=1`
   ).then((response) => {
@@ -335,7 +335,7 @@ export const getTrendingMovies = ({ queryKey }) => {
 // Static Page 03 for assignment
 // Get now playing movies for the week
 // Used by nowPlayingMoviesPage.jsx
-export const getNowPlayingMovies = ({ queryKey }) => {
+export const getNowPlayingMovies = () => {
   const region = 'IE' // Ireland, might change this later, but will leave hard-coded here for now
   return fetch(
     `https://api.themoviedb.org/3/movie/now_playing?api_key=${import.meta.env.VITE_TMDB_KEY}&region=${region}&page=1`
@@ -392,7 +392,7 @@ export const getTrailerKeyByMovie = ({ queryKey }) => {
     json = json.results;
     let trailer = json.find(video => video.type === 'Trailer' && video.site === 'YouTube'); // && video.iso_639_1 === 'en'
     if (!trailer) {
-      trailer = json.find(video.site === 'YouTube'); // something to show is better than nothing
+      trailer = json.find(video => video.site === 'YouTube'); // something to show is better than nothing
     }
     return trailer ? trailer.key : null;
   })
