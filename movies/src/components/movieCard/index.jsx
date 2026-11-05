@@ -45,6 +45,8 @@ export default function MovieCard({ movie, action }) {
           movie.favorite && movie.myWatchList ? 
           <Avatar sx={{
               backgroundColor: "primary.main",
+              width: 64,
+              borderRadius: 8,
               '&:hover': {
                 backgroundColor: 'primary.main',
                 color: 'white',
