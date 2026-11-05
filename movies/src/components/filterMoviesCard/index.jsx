@@ -109,6 +109,7 @@ export default function FilterMoviesCard(props) {
           label="Minimum rating"
           type="number"
           variant="filled"
+          placeholder="7.5"
           value={props.ratingFilter}
           onChange={handleRatingChange}
           slotProps={{
@@ -130,6 +131,7 @@ export default function FilterMoviesCard(props) {
           label="Release year"
           type="number"
           variant="filled"
+          placeholder="2026"
           value={props.yearFilter}
           onChange={handleYearChange}
           slotProps={{
