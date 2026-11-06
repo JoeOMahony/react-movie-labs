@@ -63,6 +63,10 @@ export default function FilterMoviesCard(props) {
     handleChange(e, "year", e.target.value);
   }
 
+  const handleSortChange = (e) => {
+    handleChange(e, "sortBy", e.target.value);
+  }
+
   return (
     <Card
       sx={{
@@ -70,8 +74,8 @@ export default function FilterMoviesCard(props) {
       }}
       variant="outlined">
       <CardContent>
-        <Typography variant="h5" component="h1">
-          <SearchIcon fontSize="medium" sx={{ pr: 1 }} />
+        <Typography variant="h5" component="h1" sx={{ mb: 2, pt: 0, fontWeight: "bold" }}>
+          <SearchIcon fontSize="large" sx={{ pr: 1, pt: 1 }} />
           Filter movies
         </Typography>
         <TextField
@@ -124,7 +128,7 @@ export default function FilterMoviesCard(props) {
           }}
           error={props.ratingFilter < 0 || props.ratingFilter > 10}
         />
-        { /* https://mui.com/material-ui/material-icons/?query=calendar&selected=CalendarMonth */ }
+        { /* https://mui.com/material-ui/material-icons/?query=calendar&selected=CalendarMonth */}
         <TextField
           sx={{ ...formControl }}
           id="year-filter"
@@ -147,11 +151,28 @@ export default function FilterMoviesCard(props) {
           // First silent film in 1888, future films also listed by TMDB
           error={props.yearFilter !== "" && (props.yearFilter < 1888 || props.yearFilter > 2040)} // Stop it erroring on empty string default
         />
+        <FormControl sx={{ ...formControl }}>
+          <InputLabel id="sort-label">Sort by</InputLabel>
+          <Select
+            labelId="sort-label"
+            id="sort-select"
+            defaultValue="Sort by"
+            value={props.sortBy}
+            onChange={handleSortChange}
+          >
+            <MenuItem value="title-asc">Title Asc (A-Z)</MenuItem>
+            <MenuItem value="title-desc">Title Desc (Z-A)</MenuItem>
+            <MenuItem value="rating-asc">Rating Asc (0-10)</MenuItem>
+            <MenuItem value="rating-desc">Rating Desc (10-0)</MenuItem>
+            <MenuItem value="year-asc">Year Asc (Oldest-Newest)</MenuItem>
+            <MenuItem value="year-desc">Year Desc (Newest-Oldest)</MenuItem>
+          </Select>
+        </FormControl>
       </CardContent>
       <CardMedia
         sx={{ height: 300, m: 1, mb: 3, borderRadius: 2.5 }}
         image={img}
-        title="Filter"
+        title="Filter movies"
       />
       {/* <CardContent>
         <Typography variant="h5" component="h1">
@@ -162,4 +183,4 @@ export default function FilterMoviesCard(props) {
       </CardContent> */}
     </Card>
   );
-}
+};

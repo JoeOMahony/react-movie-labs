@@ -34,6 +34,7 @@ function MovieListPageTemplate({ movies, title, action }) {
       };
       return m.release_date.startsWith(yearFilter);
     }).sort((a, b) => {
+      // https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Array/sort
       switch (sortBy) {
         case "title-asc":
           return a.title.localeCompare(b.title);
@@ -48,7 +49,7 @@ function MovieListPageTemplate({ movies, title, action }) {
         case "year-desc":
           return b.release_date.localeCompare(a.release_date);
         default:
-          return 0;
+          return "";
       }
     });
 
