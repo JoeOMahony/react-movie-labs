@@ -9,6 +9,29 @@
 **Term:** Year 4 Semester 1    
 
 ## Select Features
+I've picked out two features to go into detail on, and a few more to briefly mention. This list is not exhaustive due to time constraints. The patterns for static and dynamic pages are straight forward and get their own section. An important note is that my git commit messages are detailed and worth checking to fill in gaps.
+
+### Updating Pages for Caching
+#### URL Parameters
+- Update the relevant `tmdb-api` function to use a `queryKey` by replacing the logic around whatever argument was formerly passed, parsing out the `queryKey` argument for `id` (+), and using it. Add in async handling and error checking with `.then()` and `.catch()` methods.
+- Replace `useState` and `useEffect` with `useQuery` and add in state handling with `isPending` and `isError`.
+#### No URL Parameters
+- Same as above, but can leave out the `id` from the `queryKey`.
+
+### ESLint
+Taking a leave it until the end approach meant my 5th of November lint check returned 50 errors. All of these had to be fixed manually, and are detailed in the relevant commit messages. The project passes lint checks on submission.
+
+### YouTube Movie Trailers
+This really built on all the work I'd done on fetching images to display in chips in the `MovieDetails` component. This started with production company logos, and now includes actors, directors, countries (using an external flag API) and movie DVD art. It's just an iframe with its source set to a path built from the `/videos` endpoint. The only major snags I hit were YouTube embedding not working within the VS Code browser and not allowing me to embed using a `CardMedia` component. Also, the TMDB endpoint returns a list of videos. Movies don't only have their trailer stored, they can have multiple videos of different types. I deault to YouTube trailers, but will take any YouTube video associated with the movie if the trailer isn't available. This feature still doesn't work within the VS Code browser, but does on Chrome.
+
+### Filtering
+- Add state in `templateMovieListPage`, then a filter (`.filter()`) and handler (to `handleChange` for `onUserInput`). 
+- Add the filter field with validation in `filterMoviesCard`.
+
+### Searching and Sorting
+- Searching came from the labs.
+- Sorting gets a simple implementation in the `templateMovieListPage` component, a switch statement with an `Array.sort(movie1, movie2)` comparator comparing their values. 
+
 ### `ErrorDisplay` Component
 This component was only envisioned at the start of the final week, after I sought to improve the error message displayed on each page. I spent time writing a detailed error display in the now removed `directorMoviesPage` and realised that I would have to copy and adapt it to every single page. This was more than a handful of pages. Better late than never, I moved it into a new component to allow it to be adapted and reused as required. `ErrorDisplay` took two props, `resource` and `message`. `resource` was used to describe the actual resource associated with the error so that it could be displayed to the user in the error header: "There was an error when handling your {resource} request". The `message` is the actual error message, which I displayed in a HTML `code` block. I added in an error icon and some custom typography changes from my theme. Looking back, it took five commits (but a few hours) to make the changes:
 1. Created the `ErrorDisplay` component, added new typography variants to the theme, and adapted `directorsMoviePage` to use the new component.
@@ -16,8 +39,6 @@ This component was only envisioned at the start of the final week, after I sough
 3. Changed all pages to use the component.
 4. Changed the three components to use it. I found all these and the pages by a global search for `isError` in VS Code.
 5. Added error handling to `favoriteMoviesPage` and `watchListMoviesPage`. Before, these had no error handling (but did have a spinner for `isPending`).
-
----
 
 ### Moving to `personDetailsPage` from `moviesByCastPage` and `directorMoviesPage`
 When I was adding more Chips to the `MovieDetails` component, I created a section showing the first ten actors associated with a movie in the same style as the others. This meant following the dynamic page pattern described below (query function, page based on`MovieListTemplate`, new route). A while later, I added a `directorMoviesPage` in this same pattern. A few days ago, however, I realised that to meet the assignment specification I would need some kind of actors page. I decided to implement this as a 'person' page because it would be illogical to have this functionality for the actor chips, but not the director chips on the same page. The following describes my process for extending the existing two page implementations into a single person page.
