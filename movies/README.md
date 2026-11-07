@@ -7,6 +7,18 @@
 **Student Number:** 21788075    
 **Course:** B.Sc. in Software Systems Development    
 **Term:** Year 4 Semester 1    
+## Details
+### Set-Up
+1. Change directory to `movies/` from root and run `npm install`.
+2. Add your TMDB API key to a `.env` file as:
+```
+VITE_TMDB_KEY='mykey'
+FAST_REFRESH=false
+```
+3. Run `npm run dev`.
+
+### YouTube Demonstration
+**Link:**   
 
 ## Select Features
 I've picked out a few features to briefly mention and two to go into detail on. This list is not exhaustive due to time constraints. The patterns for static and dynamic pages are straight forward and get their own section. An important note is that my git commit messages are detailed and worth checking to fill in gaps.
