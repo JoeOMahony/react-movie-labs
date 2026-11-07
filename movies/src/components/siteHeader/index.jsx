@@ -69,7 +69,7 @@ const SiteHeader = () => {
                         TMDB Client
                     </Typography>
                     </Button>
-                    <Typography variant="h6" sx={{ flexGrow: 1, textAlign: "center" }}>
+                    <Typography variant="h6" sx={{ flexGrow: 1, textAlign: "center", fontStyle: "italic" }}>
                         All you ever wanted to know about Movies!
                     </Typography>
                     {isMobile ? (
