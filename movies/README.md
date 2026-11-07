@@ -8,7 +8,17 @@
 **Course:** B.Sc. in Software Systems Development    
 **Term:** Year 4 Semester 1    
 
-## Project Features
+## Select Features
+### `ErrorDisplay` Component
+This component was only envisioned at the start of the final week, after I sought to improve the error message displayed on each page. I spent time writing a detailed error display in the now removed `directorMoviesPage` and realised that I would have to copy and adapt it to every single page. This was more than a handful of pages. Better late than never, I moved it into a new component to allow it to be adapted and reused as required. `ErrorDisplay` took two props, `resource` and `message`. `resource` was used to describe the actual resource associated with the error so that it could be displayed to the user in the error header: "There was an error when handling your {resource} request". The `message` is the actual error message, which I displayed in a HTML `code` block. I added in an error icon and some custom typography changes from my theme. Looking back, it took five commits (but a few hours) to make the changes:
+1. Created the `ErrorDisplay` component, added new typography variants to the theme, and adapted `directorsMoviePage` to use the new component.
+2. Made some small modifications to the wording of the `ErrorDisplay` header displayed to users.
+3. Changed all pages to use the component.
+4. Changed the three components to use it. I found all these and the pages by a global search for `isError` in VS Code.
+5. Added error handling to `favoriteMoviesPage` and `watchListMoviesPage`. Before, these had no error handling (but did have a spinner for `isPending`).
+
+---
+
 ### Moving to `personDetailsPage` from `moviesByCastPage` and `directorMoviesPage`
 When I was adding more Chips to the `MovieDetails` component, I created a section showing the first ten actors associated with a movie in the same style as the others. This meant following the dynamic page pattern described below (query function, page based on`MovieListTemplate`, new route). A while later, I added a `directorMoviesPage` in this same pattern. A few days ago, however, I realised that to meet the assignment specification I would need some kind of actors page. I decided to implement this as a 'person' page because it would be illogical to have this functionality for the actor chips, but not the director chips on the same page. The following describes my process for extending the existing two page implementations into a single person page.
 
