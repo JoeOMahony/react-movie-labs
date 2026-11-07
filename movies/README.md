@@ -9,7 +9,7 @@
 **Term:** Year 4 Semester 1    
 
 ## Select Features
-I've picked out two features to go into detail on, and a few more to briefly mention. This list is not exhaustive due to time constraints. The patterns for static and dynamic pages are straight forward and get their own section. An important note is that my git commit messages are detailed and worth checking to fill in gaps.
+I've picked out a few features to briefly mention and two to go into detail on. This list is not exhaustive due to time constraints. The patterns for static and dynamic pages are straight forward and get their own section. An important note is that my git commit messages are detailed and worth checking to fill in gaps.
 
 ### Updating Pages for Caching
 #### URL Parameters
@@ -17,6 +17,9 @@ I've picked out two features to go into detail on, and a few more to briefly men
 - Replace `useState` and `useEffect` with `useQuery` and add in state handling with `isPending` and `isError`.
 #### No URL Parameters
 - Same as above, but can leave out the `id` from the `queryKey`.
+
+### Watch List
+I extended the lab exercises which added in some context to a fully fledged watch list feature, in the same vein as favourites. I also updated/fixed the little icon at the top of each movie card so that the background expands to allow the heart and list icons to appear side-by-side if a movie is in both.
 
 ### ESLint
 Taking a leave it until the end approach meant my 5th of November lint check returned 50 errors. All of these had to be fixed manually, and are detailed in the relevant commit messages. The project passes lint checks on submission.
@@ -159,7 +162,7 @@ The page is now accessible by `/some-movies`, but there isn't any way to know th
 ---
 
 ### Dynamic Page Pattern
-This pattern describes how dynamic pages were added to the project. Dynamic pages are pages that show results based on the URL parameters. For example, `directorMoviesPage` is going to show different movies based on the director's id. Examples of dynamic pages include Country (`countryMoviesPage`), Company (`companyMoviesPage`), Cast (`moviesByCastPage`) and Director (`directorMoviesPage`) pages, among others. Unlike static pages, all of the above pages are not reached by using the site header. They are reached through the `movieDetails` component's chips.
+This pattern describes how dynamic pages were added to the project. Dynamic pages are pages that show results based on the URL parameters. For example, `genreMoviesPage` is going to show different movies based on the genre. Examples of dynamic pages include Country (`countryMoviesPage`), Person (`personDetailsPage`), and Company (`companyMoviesPage`) pages, among others. Unlike static pages, all of the above pages are not reached by using the site header. They are reached through the `movieDetails` component's chips.
 
 #### (1). Add the query function to `tmdb-api`
 Dynamic pages use the queryKey passed in order to extract data to use in the URL path or append as parameters. Multiple parameters can be passed in the query key, but haven't been in this project. The key diffences from static pages are the extraction of the `idPart`, which just represents the second/last entry of the array in my case, and the destructuring of id from that. Promises are used for error handling and some query functions require the modification of the API response before the final return. For example, slicing an array of actors in `getCastByMovie`, and filtering `crew` by a specific `member.job` key's `Director` value within both `getMoviesByDirector` and `getDirectorsByMovie` JSON responses.
@@ -224,7 +227,7 @@ export default SomeDynamicMoviesPage;
 ```
 
 #### (3). Add the route in `main.jsx`
-The route declares the URL parameters read in the page created above. They must match the destructuring from the reading page exactly, *i.e.*, `{ paramName01, paramName02 } = useParams()` and be prefixed with `:`. For example, `/some-page/:paramName01/:paramName02`, `/directors/:id/:name`, and `/cast/:castId/:castName`.
+The route declares the URL parameters read in the page created above. They must match the destructuring from the reading page exactly, *i.e.*, `{ paramName01, paramName02 } = useParams()` and be prefixed with `:`. For example, `/some-page/:paramName01/:paramName02`, `/person/:id/:name` `/cast/:castId/:castName`.
 
 ```jsx 
 import SomeDynamicMoviesPage from "./pages/someDynamicMoviesPage.jsx";
