@@ -5,6 +5,7 @@ import { useParams } from "react-router";
 import { useQuery } from '@tanstack/react-query';
 import Spinner from '../components/spinner'
 import ErrorDisplay from "../components/errorDisplay"
+import AddToWatchListIcon from '../components/cardIcons/addToWatchList'
 
 // Based on favoriteMoviesPage.jsx
 const CompanyMoviesPage = () => {
@@ -33,7 +34,12 @@ const CompanyMoviesPage = () => {
             title={`Movies by ${name}`}
             movies={movies}
             action={(movie) => {
-                return <AddToFavorites movie={movie} />
+                return (
+                    <>
+                        <AddToFavorites movie={movie} />
+                        <AddToWatchListIcon movie={movie} />
+                    </>
+                )
             }}
         />
     );
