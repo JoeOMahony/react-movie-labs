@@ -7,6 +7,36 @@
 **Student Number:** 21788075    
 **Course:** B.Sc. in Software Systems Development    
 **Term:** Year 4 Semester 1    
+
+## Project Features
+### Moving to `personDetailsPage` from `moviesByCastPage` and `directorMoviesPage`
+When I was adding more Chips to the `MovieDetails` component, I created a section showing the first ten actors associated with a movie in the same style as the others. This meant following the dynamic page pattern described below (query function, page based on`MovieListTemplate`, new route). A while later, I added a `directorMoviesPage` in this same pattern. A few days ago, however, I realised that to meet the assignment specification I would need some kind of actors page. I decided to implement this as a 'person' page because it would be illogical to have this functionality for the actor chips, but not the director chips on the same page. The following describes my process for extending the existing two page implementations into a single person page.
+
+#### Taking Stock
+While I'm not going to repeat the process I used to create the two dynamic pages, as it's outlined in great detail under the dynamic page pattern, I will describe what it left me with at the beginning of this overhaul. 
+- Two pages under `pages/`: `moviesByCastPage` and `directorMoviesPage`.
+- Four query functions in `tmdb-api`: `getMoviesByCast` and `getCastByMovie`, plus `getMoviesByDirector` and `getDirectorsByMovie`.
+- Two routes in `main`: `/cast/:castId/:castName` and `/directors/:id/:name`
+- Two `Paper` section displays with chips in `MovieDetails`.
+
+#### High-Level Implementation
+1. I added a new query function, `getPersonById`, to `tmdb-api`. This calls the `person` endpoint with a person's ID in the path and returns a JSON object containing that person's details.
+2. I built a skeleton `personDetailsPage` page.
+3. I added a new route for `/person/:id/:name`. The reason why `:name` is included in the path here is so that I can display it in the ErrorDisplay component. It's not ideal, it will be encoded leaving paths in the URL bar like `/person/525/Christopher%20Nolan`, and is even worse with accents, `/person/2838/Chlo%C3%AB%20Sevigny`.
+4. I changed the actor and (later) director chips to link to this new page.
+5. I filled out the details for the new page.
+6. I added a `MovieList` section. I didn't use the `MovieListTemplate` because I didn't want a filter/sort card in a subsection. It looked off.
+7. I incorporated directors into the page.
+8. I deleted the old, now orphaned pages and their associated routes.
+
+#### Problems Encountered
+- Some people have both actor and director credits. This is especially common with directors, who earn an acting credit for cameos and short film appearances. I added a check to see whether that person was known for directing. If they were, the result from`getMoviesByDirector` was used.
+- For directors, the query would also return their TV credits, so I filtered the results.
+- I forgot to add in the Nav bar/header section at the top of the page body.
+- I had to decide what to do with so many different things that could be pending or error. If the query function for the person endpoint succeeded, but the one for the `MovieList` part failed, should the entire page error? Should the page be allowed to load piecemeal or all at once? I decided that only the person query should decide the loading and error states.
+- I would need to adapt the people page for the object properties actually returned. I don't want to have a line on their date of death if they're alive. I added a check. 
+
+
 ## Project Patterns
 ### Static Page Pattern
 This pattern describes how static pages were added to the website. Examples of static pages include the Now Playing (`nowPlayingMoviesPage`), Trending (`trendingMoviesPage`), Top Rated (`topRatedMoviesPage`), and Upcoming (`upcomingMoviesPage`) pages, as available in the site header.
